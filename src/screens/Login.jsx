@@ -1,66 +1,116 @@
-import { GoogleSigninButton, isSuccessResponse, isErrorWithCode, statusCodes, GoogleSignin } from '@react-native-google-signin/google-signin';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { Text, View, ActivityIndicator } from 'react-native';
+import {
+  GoogleSigninButton,
+  isSuccessResponse,
+  isErrorWithCode,
+  statusCodes,
+  GoogleSignin,
+} from "@react-native-google-signin/google-signin";
+import { useState, useEffect } from "react";
+import { Text, View, ActivityIndicator, Button } from "react-native";
 
-import { useAuthStore } from '../store/authStore';
-import client from '../api/client';
+import { useAuthStore } from "../store/authStore";
+import client from "../api/client";
 
+import { registerForPushNotificationsAsync } from '../services/notificationService';
+import axios from 'axios';
+    
 const Login = () => {
-	const setAuth = useAuthStore((state) => state.setAuth);
-	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [message, setMessage] = useState('');
+		useEffect(() => {
+			GoogleSignin.configure({
+				webClientId: '647074760883-i8qj7g6gj26n5ttfoqpnq2rrqvdofk3v.apps.googleusercontent.com',
+				offlineAccess: true,
+			});
+		}, []);
 
-	useEffect(() => {
-		GoogleSignin.configure({
-			webClientId: '647074760883-i8qj7g6gj26n5ttfoqpnq2rrqvdofk3v.apps.googleusercontent.com',
-			offlineAccess: true,
-		});
-	}, []);
+  const setAuth = useAuthStore((state) => state.setAuth);
+  const authToken = useAuthStore((state) => state.token); 
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState("");
 
-	const handleGoogleSignin = async () => {
-		try {
-			setMessage('');
-			setIsSubmitting(true);
-			await GoogleSignin.hasPlayServices();
-			const googleResponse = await GoogleSignin.signIn();
+  const savePushToken = async (token) => {
+    try {
+      const expoToken = await registerForPushNotificationsAsync();
+      if (expoToken) {
+        await client.post('/user/push-token', 
+          { token: expoToken },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        console.log('Push token synced to ASTRA backend.');
+      }
+    } catch (error) {
+      console.error('Push token sync failed:', error);
+    }
+  };
 
-			if (isSuccessResponse(googleResponse)) {
-				const { idToken } = googleResponse.data;
+  const handleGoogleSignin = async () => {
+    try {
+      setMessage("");
+      setIsSubmitting(true);
+      await GoogleSignin.hasPlayServices();
+      const googleResponse = await GoogleSignin.signIn();
 
-				const response = await client.post('/auth/google', { token: idToken });
-				const { token, user } = response.data.data;
-				await setAuth(user, token);
+      if (isSuccessResponse(googleResponse)) {
+        const { idToken } = googleResponse.data;
+        const response = await client.post("/auth/google", { token: idToken });
+        const { token, user } = response.data.data;
+        
+        await setAuth(user, token);
+        await savePushToken(token); 
 
-				console.log("Authenticated as:", user.email);
-			}
-		} catch (error) {
-			console.error("Sign in error:", error);
-			setMessage(error.response?.data?.message || "Login failed");
-		} finally {
-			setIsSubmitting(false);
-		}
-	};
+        console.log("Authenticated as:", user.email);
+        console.log("Token:", token);
+      }
+    } catch (error) {
+      console.error("Sign in error:", error);
+      console.log(error.response?.data?.message || "Login failed");
+      setMessage(error.response?.data?.message || "Login failed");
+      try {
+        await GoogleSignin.signOut();
+      } catch (signOutError) {
+        console.log("Google SignOut failed");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
-	return (
-		<View className="flex-1 bg-white items-center justify-center p-4">
+  const handleDevLogin = async (email) => {
+    try {
+      const response = await client.post("/auth/dev-login", { email });
+      const { token, user } = response.data.data;
+      
+      await setAuth(user, token);
+      
+      await savePushToken(token);
+    } catch (error) {
+      console.error("Dev login error:", error);
+    }
+  };
 
-			<GoogleSigninButton
-				size={GoogleSigninButton.Size.Wide}
-				color={GoogleSigninButton.Color.Dark}
-				onPress={handleGoogleSignin}
-				disabled={isSubmitting}
-			/>
+  return (
+    <View className="flex-1 bg-white items-center justify-center p-4">
+      <GoogleSigninButton
+        size={GoogleSigninButton.Size.Wide}
+        color={GoogleSigninButton.Color.Dark}
+        onPress={handleGoogleSignin}
+        disabled={isSubmitting}
+      />
 
-			{isSubmitting && (
-				<ActivityIndicator className="mt-4" />
+      {__DEV__ && (
+				<View className="mt-10 border-t border-gray-200 pt-4">
+					<Button title="Login as Student" onPress={() => handleDevLogin('student01@astra.test')} />
+					<Button title="Login as Class Officer" onPress={() => handleDevLogin('classofficer01@astra.test')} />
+					<Button title="Login as Instructor" onPress={() => handleDevLogin('instructor01@astra.test')} />
+					<Button title="Login as Program Head" onPress={() => handleDevLogin('programhead01@astra.test')} />
+				</View>
 			)}
 
-			{message && (
-				<Text className="mt-4 text-red-500">{message}</Text>
-			)}
-		</View>
-	);
-}
+      {isSubmitting && <ActivityIndicator className="mt-4" />}
+
+      {message && <Text className="mt-4 text-red-500">{message}</Text>}
+    </View>
+  );
+};
 
 export default Login;

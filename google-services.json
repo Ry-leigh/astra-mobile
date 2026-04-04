@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "647074760883",
+    "project_id": "astra-489013",
+    "storage_bucket": "astra-489013.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647074760883:android:7ae0f57f7c6bd27dbec8c6",
+        "android_client_info": {
+          "package_name": "com.mizryn.astra"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "647074760883-i8qj7g6gj26n5ttfoqpnq2rrqvdofk3v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXr5d1trNN27ez-gxaTfB1bCqerAIqss0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "647074760883-i8qj7g6gj26n5ttfoqpnq2rrqvdofk3v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

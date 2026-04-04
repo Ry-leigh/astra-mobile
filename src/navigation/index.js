@@ -8,7 +8,7 @@ import TabNavigator from './TabNavigator';
 
 const Stack = createNativeStackNavigator();
 
-export default function AppNavigator() {
+const AppNavigator = () => {
   const { token, isLoading, initialize } = useAuthStore();
 
   // Check if user has/is already logged in
@@ -35,3 +35,5 @@ export default function AppNavigator() {
     </Stack.Navigator>
   );
 }
+
+export default AppNavigator;

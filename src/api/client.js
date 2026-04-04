@@ -1,19 +1,20 @@
 import axios from 'axios';
-import { useAuthStore } from '../store/authStore';
+import * as SecureStore from 'expo-secure-store';
 
-const baseURL = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:8000/api';
+const baseURL = 'http://127.0.0.1:8000/api';
 
 const client = axios.create({
-  baseURL: baseURL, 
+  baseURL: baseURL,
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
   },
 });
 
+// Request Interceptor: Get token directly from SecureStore
 client.interceptors.request.use(
   async (config) => {
-    const token = useAuthStore.getState().token;
+    const token = await SecureStore.getItemAsync('userToken'); // Direct access
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -24,8 +25,9 @@ client.interceptors.request.use(
 
 client.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
     if (error.response && error.response.status === 401) {
+      await SecureStore.deleteItemAsync('userToken');
       useAuthStore.getState().logout();
     }
     return Promise.reject(error);
