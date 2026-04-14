@@ -26,7 +26,7 @@ const AppNavigator = () => {
   }
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#fff' } }}>
       {token ? (
         <Stack.Screen name="MainTabs" component={TabNavigator} />
       ) : (

@@ -1,4 +1,4 @@
-// import './global.css'; // Ensure NativeWind is loaded
+import "../global.css";
 import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import AppNavigator from "./navigation/index.js";

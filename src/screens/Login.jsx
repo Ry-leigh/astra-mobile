@@ -101,7 +101,7 @@ const Login = () => {
 				<View className="mt-10 border-t border-gray-200 pt-4">
 					<Button title="Login as Student" onPress={() => handleDevLogin('student01@astra.test')} />
 					<Button title="Login as Class Officer" onPress={() => handleDevLogin('classofficer01@astra.test')} />
-					<Button title="Login as Instructor" onPress={() => handleDevLogin('instructor01@astra.test')} />
+					<Button title="Login as Instructor" onPress={() => handleDevLogin('instructor04@astra.test')} />
 					<Button title="Login as Program Head" onPress={() => handleDevLogin('programhead01@astra.test')} />
 				</View>
 			)}

@@ -3,22 +3,11 @@ import { create } from 'zustand';
 import * as SecureStore from 'expo-secure-store';
 import { registerForPushNotificationsAsync } from '../services/notificationService';
 import client from "../api/client";
-export const useAuthStore = create((set, get) => ({
-  user: null,
-  token: null,
-  activeRole: null,
-  isLoading: true,
 
-  setAuth: async (user, token) => {
+export const useAuthStore = create((set, get) => ({ user: null, token: null, activeRole: null, isLoading: true, setAuth: async (user, token) => {
     const role = user.roles && user.roles.length > 0 ? user.roles[0].name : 'guest';
     await SecureStore.setItemAsync('userToken', token);
-    
-    set({ 
-      user, 
-      token, 
-      activeRole: role, 
-      isLoading: false 
-    });
+    set({ user, token, activeRole: role, isLoading: false });
 
     get().syncPushToken(); 
   },

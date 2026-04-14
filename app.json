@@ -26,11 +26,7 @@
         "monochromeImage": "./src/assets/android-icon-monochrome.png"
       },
       "package": "com.mizryn.astra",
-      "googleServicesFile": "./google-services.json",
-      "compileSdkVersion": 34,
-      "targetSdkVersion": 34,
-      "buildToolsVersion": "34.0.0",
-      "usesCleartextTraffic": true
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
@@ -45,14 +41,16 @@
         "expo-build-properties",
         {
           "android": {
-            "compileSdkVersion": 36,
+            "compileSdkVersion": 34,
             "targetSdkVersion": 34,
-            "buildToolsVersion": "35.0.0"
+            "buildToolsVersion": "34.0.0",
+            "usesCleartextTraffic": true
           }
         }
       ],
       "@react-native-google-signin/google-signin",
-      "expo-secure-store"
-    ] 
+      "expo-secure-store",
+      "expo-font"
+    ]
   }
 }
