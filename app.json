@@ -4,7 +4,7 @@
     "slug": "astra",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/icon.png",
+    "icon": "./src/assets/astra-logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./src/assets/splash-icon.png",
@@ -21,9 +21,9 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./src/assets/android-icon-foreground.png",
+        "foregroundImage": "./src/assets/astra-logo.png",
         "backgroundImage": "./src/assets/android-icon-background.png",
-        "monochromeImage": "./src/assets/android-icon-monochrome.png"
+        "monochromeImage": "./src/assets/astra-logo.png"
       },
       "package": "com.mizryn.astra",
       "googleServicesFile": "./google-services.json"

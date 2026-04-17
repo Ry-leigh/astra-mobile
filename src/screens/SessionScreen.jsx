@@ -3,9 +3,9 @@ import Layout from '../components/Layout';
 
 const SessionScreen = () => {
   return (
-    <Layout>
-      <View className="flex-1 items-center justify-center">
-        <Text className="text-2xl font-bold m-4">Session</Text>
+    <Layout title="Session">
+      <View>
+        <Text>Session</Text>
       </View>
     </Layout>
   );

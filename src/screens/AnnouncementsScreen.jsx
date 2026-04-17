@@ -3,9 +3,9 @@ import Layout from '../components/Layout';
 
 const AnnouncementsScreen = () => {
   return (
-    <Layout>
-      <View className="flex-1 items-center justify-center">
-        <Text className="text-2xl font-bold m-4">Announcements</Text>
+    <Layout title="Announcements">
+      <View>
+        <Text>Announcements</Text>
       </View>
     </Layout>
   );

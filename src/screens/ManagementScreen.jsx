@@ -1,14 +1,14 @@
 import { View, Text } from "react-native";
 import Layout from "../components/Layout";
 
-const CalendarScreen = () => {
+const ManagementScreen = () => {
   return (
-    <Layout title="Calendar">
+    <Layout title="Management">
       <View>
-        <Text>Calendar</Text>
+        <Text>Management</Text>
       </View>
     </Layout>
   );
 };
 
-export default CalendarScreen;
+export default ManagementScreen;

@@ -1,14 +1,14 @@
 import { View, Text } from 'react-native';
 import Layout from '../components/Layout';
 
-const SectionListScreen = () => {
+const ProfileScreen = () => {
   return (
-    <Layout title="Sections">
+    <Layout title="Profile">
       <View>
-        <Text>Sections</Text>
+        <Text>Profile</Text>
       </View>
     </Layout>
   );
 };
 
-export default SectionListScreen;
+export default ProfileScreen;

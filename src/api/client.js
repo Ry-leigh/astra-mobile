@@ -12,22 +12,25 @@ const client = axios.create({
   },
 });
 
-// Request Interceptor: Get token directly from SecureStore
-client.interceptors.request.use(
-  async (config) => {
-    const token = await SecureStore.getItemAsync('userToken'); // Direct access
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+client.interceptors.request.use((config) => {
+  const { useAuthStore } = require('../store/authStore');
+  const token = useAuthStore.getState().token;
+  
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
 
 client.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response && error.response.status === 401) {
+      const { useAuthStore } = require('../store/authStore');
+      
       await SecureStore.deleteItemAsync('userToken');
       useAuthStore.getState().logout();
     }

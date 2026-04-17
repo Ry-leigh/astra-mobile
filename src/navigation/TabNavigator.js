@@ -4,32 +4,31 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Animated, { useAnimatedStyle, withSpring, withTiming } from 'react-native-reanimated';
 import { LayoutDashboard, LibraryBig, BookCopy, Landmark, Calendar, Megaphone, User, Shapes } from 'lucide-react-native';
 import { useAuthStore } from '../store/authStore';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import ProgramStack from './ProgramStack';
 import DashboardScreen from '../screens/DashboardScreen';
 import StudentCoursesScreen from '../screens/StudentCoursesScreen';
 import InstructorClassesScreen from '../screens/InstructorClassesScreen';
 import CalendarScreen from '../screens/CalendarScreen';
-import AccountScreen from '../screens/AccountScreen';
+import AccountStack from './AccountStack';
 import AnnouncementsScreen from '../screens/AnnouncementsScreen';
 
 const Tab = createBottomTabNavigator();
 
-// 1. The new explicitly animated component
-const TabBarItem = ({ isFocused, onPress, route, icon: IconComponent }) => {
-  const [textWidth, setTextWidth] = useState(0);
-  // Animate the background and padding safely
+// 1. Updated to accept a 'label' prop instead of relying on 'route.name'
+const TabBarItem = ({ isFocused, onPress, label, icon: IconComponent }) => {
   const animatedWrapperStyle = useAnimatedStyle(() => {
     return {
       paddingHorizontal: withSpring(16, { damping: 15, stiffness: 10 }),
-      backgroundColor: isFocused ? '#ede9fe' : 'transparent', // #ede9fe is Tailwind violet-100
+      backgroundColor: isFocused ? '#ede9fe' : 'transparent', 
     };
   });
 
-  // Animate the text width from 0 to its full size so it pushes the icons smoothly
   const animatedTextStyle = useAnimatedStyle(() => {
     return {
-      width: withTiming(isFocused ? route.name.length * 5 + 28 : 0, { duration: 200 }),
+      // Use label.length instead of route.name.length
+      width: withTiming(isFocused ? label.length * 8 + 8 : 0, { duration: 200 }),
       opacity: withTiming(isFocused ? 1 : 0, { duration: 200 }),
     };
   });
@@ -45,9 +44,9 @@ const TabBarItem = ({ isFocused, onPress, route, icon: IconComponent }) => {
         <Animated.View style={[animatedTextStyle, { overflow: 'hidden' }]}>
           <Text
             numberOfLines={1} 
-            className="text-violet-600 font-bold ml-2 text-sm"
+            className="text-violet-600 font-poppins-bold ml-2 text-xs"
           >
-            {route.name}
+            {label}
           </Text>
         </Animated.View>
       </Animated.View>
@@ -56,39 +55,45 @@ const TabBarItem = ({ isFocused, onPress, route, icon: IconComponent }) => {
 };
 
 // 2. The Custom Tab Bar mapping
-function CustomTabBar({ state, descriptors, navigation, roleTab }) {
+function CustomTabBar({ state, navigation, roleTab }) {
+  const insets = useSafeAreaInsets();
   return (
-    <View className="absolute bottom-0 left-0 right-0 flex-row bg-white pb-8 pt-4 px-4 shadow-lg shadow-black items-center justify-between">
-      {state.routes.map((route, index) => {
-        const isFocused = state.index === index;
-        
-        const icons = {
-          Home: LayoutDashboard,
-          [roleTab.name]: roleTab.icon,
-          Calendar: Calendar,
-          News: Megaphone,
-          Account: User,
-        };
-        const IconComponent = icons[route.name] || Shapes;
+      <View style={{ paddingBottom: insets.bottom > 0 ? insets.bottom + 4 : 16 }}
+      className="absolute bottom-0 left-0 right-0 flex-row bg-white p-4 shadow-lg shadow-black items-center justify-between">
+        {state.routes.map((route, index) => {
+          const isFocused = state.index === index;
+          
+          // Map to the static 'RoleTab' name
+          const icons = {
+            Dashboard: LayoutDashboard,
+            RoleTab: roleTab.icon, 
+            Calendar: Calendar,
+            Announcements: Megaphone,
+            Account: User,
+          };
+          const IconComponent = icons[route.name] || Shapes;
 
-        const onPress = () => {
-          const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
-          if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name);
-          }
-        };
+          // Dynamically decide the label to show the user
+          const displayLabel = route.name === 'RoleTab' ? roleTab.name : route.name;
 
-        return (
-          <TabBarItem 
-            key={index}
-            isFocused={isFocused}
-            onPress={onPress}
-            route={route}
-            icon={IconComponent}
-          />
-        );
-      })}
-    </View>
+          const onPress = () => {
+            const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
+            if (!isFocused && !event.defaultPrevented) {
+              navigation.navigate(route.name);
+            }
+          };
+
+          return (
+            <TabBarItem 
+              key={index}
+              isFocused={isFocused}
+              onPress={onPress}
+              label={displayLabel} // Pass the dynamic label down
+              icon={IconComponent}
+            />
+          );
+        })}
+      </View>
   );
 }
 
@@ -110,14 +115,13 @@ export default function TabNavigator() {
   return (
     <Tab.Navigator
       tabBar={(props) => <CustomTabBar {...props} roleTab={roleTab} />}
-      // Ensure the scene background is transparent so it relies on the Stack's #fff
       screenOptions={{ headerShown: false, sceneStyle: { backgroundColor: 'transparent' } }}
     >
-      <Tab.Screen name="Home" component={DashboardScreen} />
-      <Tab.Screen name={roleTab.name} component={roleTab.component} />
+      <Tab.Screen name="Dashboard" component={DashboardScreen} />
+      <Tab.Screen name="RoleTab" component={roleTab.component} />
       <Tab.Screen name="Calendar" component={CalendarScreen} />
-      <Tab.Screen name="News" component={AnnouncementsScreen} />
-      <Tab.Screen name="Account" component={AccountScreen} />
+      <Tab.Screen name="Announcements" component={AnnouncementsScreen} />
+      <Tab.Screen name="Account" component={AccountStack} options={{ popToTopOnBlur: true }}/>
     </Tab.Navigator>
   );
 }

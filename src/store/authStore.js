@@ -4,10 +4,25 @@ import * as SecureStore from 'expo-secure-store';
 import { registerForPushNotificationsAsync } from '../services/notificationService';
 import client from "../api/client";
 
-export const useAuthStore = create((set, get) => ({ user: null, token: null, activeRole: null, isLoading: true, setAuth: async (user, token) => {
-    const role = user.roles && user.roles.length > 0 ? user.roles[0].name : 'guest';
+export const useAuthStore = create((set, get) => ({
+  user: null,
+  token: null,
+  roles: [],
+  activeRole: null,
+  isLoading: true,
+  setAuth: async (user, token) => {
+    const userRoles = user.roles || [];
+    const defaultRole = userRoles.length > 0 ? userRoles[0].name : 'guest';
+
     await SecureStore.setItemAsync('userToken', token);
-    set({ user, token, activeRole: role, isLoading: false });
+    
+    set({ 
+      user, 
+      token, 
+      roles: userRoles,
+      activeRole: defaultRole, 
+      isLoading: false,
+    });
 
     get().syncPushToken(); 
   },
@@ -19,35 +34,41 @@ export const useAuthStore = create((set, get) => ({ user: null, token: null, act
 
       if (token && currentUser) {
         await client.post('/user/push-token', { token });
-        console.log("Push token synced to backend.");
       }
     } catch (error) {
       console.error("Failed to sync push token:", error);
     }
   },
 
-  setActiveRole: (role) => set({ activeRole: role }),
+  setActiveRole: async (roleName) => {
+    set({ activeRole: roleName });
+    await SecureStore.setItemAsync('activeRole', roleName);
+  },
 
   initialize: async () => {
     try {
       const token = await SecureStore.getItemAsync('userToken');
-      if (!token) {
-        set({ isLoading: false });
-        return;
-      }
+      const savedRole = await SecureStore.getItemAsync('activeRole'); // Check for saved preference
+      
+      if (!token) return set({ isLoading: false });
 
       const response = await client.get('/user');
+      const { user } = response.data.data;
 
-      if (response.data.data) {
-        const user = response.data.data.user;
-        const role = response.data.data.roles?.[0] || 'guest';
-        set({ user, token, activeRole: role, isLoading: false });
+      if (user) {
+        set({ 
+          user, 
+          token, 
+          roles: user.roles || [],
+          // Priority: 1. Current session, 2. Saved preference, 3. First role available
+          activeRole: get().activeRole || savedRole || user.roles?.[0]?.name || 'guest',
+          isLoading: false 
+        });
         get().syncPushToken();
       }
     } catch (e) {
-      console.log("Session expired or network error");
       await SecureStore.deleteItemAsync('userToken');
-      set({ user: null, token: null, activeRole: null, isLoading: false });
+      set({ user: null, token: null, roles: [], activeRole: null, isLoading: false });
     }
   },
 

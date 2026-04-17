@@ -3,9 +3,9 @@ import Layout from '../components/Layout';
 
 const ClassScreen = () => {
   return (
-    <Layout>
-      <View className="flex-1 items-center justify-center">
-        <Text className="text-2xl font-bold m-4">Class</Text>
+    <Layout title="Class">
+      <View>
+        <Text>Class</Text>
       </View>
     </Layout>
   );
