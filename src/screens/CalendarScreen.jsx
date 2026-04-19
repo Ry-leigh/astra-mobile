@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator, Modal } from 'react-native';
 import { format, parse, startOfMonth, endOfMonth, parseISO } from 'date-fns';
 import { useSchedules, useEvents } from '../hooks/useAgenda';
 import { Calendar } from 'react-native-calendars';
@@ -7,6 +7,10 @@ import { Plus, Clock, MapPin, Calendar as CalendarIcon, CalendarMinus2, ChevronL
 
 import Layout from '../components/Layout';
 import { useAuthStore } from '../store/authStore';
+import CreateEventModal from '../components/organisms/CreateEventModal';
+import EditEventModal from '../components/organisms/EditEventModal';
+import ViewEventModal from '../components/organisms/ViewEventModal';
+import DeleteEventModal from '../components/organisms/DeleteEventModal';
 
 const DAY_MAP = { 0: 'SU', 1: 'MO', 2: 'TU', 3: 'WE', 4: 'TH', 5: 'FR', 6: 'SA' };
 
@@ -89,7 +93,7 @@ const AltScheduleCard = ({ item, index }) => {
   );
 };
 
-const EventCard = ({ item }) => {
+const EventCard = ({ item, onPress }) => {
   const isSuspension = item.type?.toLowerCase() === 'suspension' || item.type === 'CLASS SUSPENSION';
   const isWholeDay = item.start_time === '00:00:00' && item.end_time === '23:59:59';
   const cardStyles = {
@@ -119,7 +123,11 @@ const EventCard = ({ item }) => {
   }
   
   return (
-    <View className={`p-5 mb-4 border rounded-3xl ${cardStyles[item.type?.toLowerCase() || 'default']}`}>
+    <TouchableOpacity 
+      activeOpacity={0.7}
+      onPress={() => onPress(item)} // Pass the whole event object
+      className={`p-5 mb-4 border rounded-3xl ${cardStyles[item.type?.toLowerCase() || 'default']}`}
+    >
       <View className="flex-row justify-between items-center mb-3">
         <View className={`px-2 py-1 rounded-lg ${cardAccent[item.type?.toLowerCase() || 'default']}`}>
           <Text className={`font-poppins-bold text-xs uppercase tracking-widest ${textStyles[item.type?.toLowerCase() || 'default']}`}>
@@ -147,7 +155,7 @@ const EventCard = ({ item }) => {
           </Text>
         </View>
       )}
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -158,7 +166,7 @@ const EmptyState = ({ message }) => (
   </View>
 );
 
-const AgendaSection = ({ selectedDate, events, schedules }) => {
+const AgendaSection = ({selectedDate, events, schedules, onEventPress }) => {
   const [activeTab, setActiveTab] = useState('schedules');
 
   // Sort events chronologically by start_time
@@ -243,9 +251,17 @@ const AgendaSection = ({ selectedDate, events, schedules }) => {
 
       <ScrollView className="flex-1 px-2" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 120 }}>
         {activeTab === 'schedules' ? (
-          dailySchedules.map((item, index) => <ScheduleCard key={index} item={item} index={index} />)
+          dailySchedules.map((item, index) => (
+            <ScheduleCard key={index} item={item} index={index} />
+          ))
         ) : (
-          dailyEvents.map((item, index) => <EventCard key={index} item={item} />)
+          dailyEvents.map((item, index) => (
+            <EventCard 
+              key={item.id || index} 
+              item={item} 
+              onPress={onEventPress} // <-- Pass it down here
+            />
+          ))
         )}
       </ScrollView>
     </View>
@@ -255,6 +271,10 @@ const AgendaSection = ({ selectedDate, events, schedules }) => {
 const CalendarScreen = () => {
   const { activeRole } = useAuthStore();
   const [selected, setSelected] = useState(format(new Date(), 'yyyy-MM-dd'));
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [viewingEvent, setViewingEvent] = useState(null);
+  const [editingEvent, setEditingEvent] = useState(null);
+  const [deletingEvent, setDeletingEvent] = useState(null);
   
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
@@ -268,7 +288,7 @@ const CalendarScreen = () => {
     const marks = {};
 
     if (Array.isArray(events)) {
-      events.forEach(event => {
+      events?.forEach(event => {
         const date = event.date || event.start_date;
         if (!date) return; 
 
@@ -413,13 +433,63 @@ const CalendarScreen = () => {
           selectedDate={selected} 
           events={events || []} 
           schedules={schedules || []} 
+          onEventPress={(item) => setViewingEvent(item)} // <-- Pass this prop
         />
+
+        {viewingEvent && (
+          <Modal visible={!!viewingEvent} transparent animationType="slide">
+            <ViewEventModal 
+                event={viewingEvent} 
+                onClose={() => setViewingEvent(null)}
+                onEdit={(event) => {
+                  setViewingEvent(null);
+                  setEditingEvent(event);
+                }}
+                onDelete={(event) => {
+                  setDeletingEvent(event);
+                  setViewingEvent(null);
+                }}
+            />
+          </Modal>
+        )}
+
+        {editingEvent && (
+          <Modal visible={!!editingEvent} transparent animationType="slide">
+            <EditEventModal 
+                event={editingEvent} 
+                onClose={() => setEditingEvent(null)} 
+            />
+          </Modal>
+        )}
+
+        {deletingEvent && (
+          <Modal visible={!!deletingEvent} transparent animationType="slide">
+            <DeleteEventModal 
+                event={deletingEvent} 
+                onClose={() => setDeletingEvent(null)} 
+                onDeleted={() => setDeletingEvent(null)} 
+            />
+          </Modal>
+        )}
       </View>
+
+      <Modal
+        visible={isModalVisible}
+        animationType="slide"
+        transparent={true}
+      >
+        <View className="flex-1 bg-black/50 justify-end">
+          <CreateEventModal 
+            selectedDate={selected} 
+            onClose={() => setModalVisible(false)} 
+          />
+        </View>
+      </Modal>
 
       {activeRole === 'program_head' && (
         <TouchableOpacity 
+          onPress={() => setModalVisible(true)}
           className="absolute bottom-6 right-6 size-16 bg-indigo-600 rounded-2xl items-center justify-center"
-          activeOpacity={0.8}
         >
           <Plus size={28} color="white" />
         </TouchableOpacity>

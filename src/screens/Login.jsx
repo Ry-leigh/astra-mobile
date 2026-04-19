@@ -69,6 +69,7 @@ const Login = () => {
     try {
       const response = await client.post("/auth/dev-login", { email });
       const { token, user } = response.data.data;
+      console.log(token);
       await setAuth(user, token);
     } catch (error) {
       console.error("Dev login error:", error);

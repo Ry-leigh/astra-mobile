@@ -47,7 +47,8 @@
       ],
       "@react-native-google-signin/google-signin",
       "expo-secure-store",
-      "expo-font"
+      "expo-font",
+      "@react-native-community/datetimepicker"
     ]
   }
 }

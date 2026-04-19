@@ -85,6 +85,7 @@ export const useAuthStore = create((set, get) => ({
       console.log("Google SignOut failed");
     }
     queryClient.clear();
+    
     await SecureStore.deleteItemAsync('userToken');
     set({ user: null, token: null, activeRole: null });
   },

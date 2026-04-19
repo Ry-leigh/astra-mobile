@@ -12,6 +12,8 @@ import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import { clientStorage } from './lib/storage.js';
 import { queryClient } from './api/queryClient.js';
+import Toast from 'react-native-toast-message';
+import { toastConfig } from './config/toastConfig.js';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -49,6 +51,7 @@ export default function App() {
         <NavigationContainer>
           <AppNavigator />
         </NavigationContainer>
+        <Toast config={toastConfig} />
       </SafeAreaProvider>
     </PersistQueryClientProvider>
   );
