@@ -10,6 +10,7 @@ import lvccLogo from "../assets/lvcc-logo.png";
 import lvccTextLogo from "../assets/lvcc-logo-text-white.png";
 import astraLogo from "../assets/astra-logo.png";
 import background from "../assets/login-bg.png";
+import MockUI from "../components/ui/mockUI";
 
 const Login = () => {
   const insets = useSafeAreaInsets();
@@ -34,7 +35,7 @@ const Login = () => {
         );
       }
     } catch (error) {
-      console.error('Push token sync failed:', error);
+      console.error('Error:', error);
     }
   };
 
@@ -52,11 +53,8 @@ const Login = () => {
           photoUrl: googleUser.photo 
         });
 
-        console.log(response)
-
         const { token, user } = response.data.data;
         await setAuth(user, token);
-        await savePushToken(token); 
       }
     } catch (error) {
       console.error("Sign in error:", error);
@@ -72,7 +70,6 @@ const Login = () => {
       const response = await client.post("/auth/dev-login", { email });
       const { token, user } = response.data.data;
       await setAuth(user, token);
-      await savePushToken(token);
     } catch (error) {
       console.error("Dev login error:", error);
     }
@@ -90,11 +87,11 @@ const Login = () => {
         <View className="flex-1 flex-col items-center justify-between px-6">
           
           <View className="items-center mt-12 w-full">
-            <View className="w-48 h-48 mb-4 shadow-2xl">
+            <View className="w-48 h-48 mb-4">
               <Image source={lvccLogo} className="w-full h-full" resizeMode="contain"/>
             </View>
 
-            <View className="w-80 h-24 shadow-2xl">
+            <View className="w-80 h-24">
               <Image source={lvccTextLogo} className="w-full h-full" resizeMode="cover"/>
             </View>
 
@@ -120,7 +117,7 @@ const Login = () => {
               onPress={handleGoogleSignin}
               disabled={isSubmitting}
               activeOpacity={0.8}
-              className="w-full bg-white flex-row items-center justify-center py-4 px-6 rounded-2xl shadow-xl"
+              className="w-full bg-white flex-row items-center justify-center py-4 px-6 rounded-2xl"
             >
               <Image source={googleGLogo} className="w-6 h-6 mr-4"/>
               <Text className="text-slate-700 font-poppins-semibold text-lg">
@@ -158,6 +155,7 @@ const Login = () => {
                 <TouchableOpacity onPress={() => handleDevLogin('classofficer01@astra.test')} className="m-1 bg-white/10 p-2 rounded">
                   <Text className="text-white text-xs">Class Officer</Text>
                 </TouchableOpacity>
+                {/* <MockUI /> */}
               </View>
             )}
           </View>

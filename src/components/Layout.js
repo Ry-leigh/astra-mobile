@@ -7,10 +7,10 @@ const Layout = ({ title="", children }) => {
   return (
     <View style={{ flex: 1, backgroundColor: 'white', paddingTop: insets.top, paddingBottom: insets.bottom, paddingLeft: insets.left, paddingRight: insets.right,}}>
       <StatusBar barStyle="dark-content" />
-      <View className="px-4 py-2 mb-1">
+      <View className="px-4 py-2 mb-1 ">
         <Text className="font-poppins-bold text-2xl text-slate-900">{title}</Text>
       </View>
-      <View className="flex-1 pt-2 px-4">{children}</View>
+      <View className="flex-1 pt-2 mb-16 px-4">{children}</View>
     </View>
   );
 }

@@ -16,7 +16,6 @@ import AnnouncementsScreen from '../screens/AnnouncementsScreen';
 
 const Tab = createBottomTabNavigator();
 
-// 1. Updated to accept a 'label' prop instead of relying on 'route.name'
 const TabBarItem = ({ isFocused, onPress, label, icon: IconComponent }) => {
   const animatedWrapperStyle = useAnimatedStyle(() => {
     return {
@@ -27,7 +26,6 @@ const TabBarItem = ({ isFocused, onPress, label, icon: IconComponent }) => {
 
   const animatedTextStyle = useAnimatedStyle(() => {
     return {
-      // Use label.length instead of route.name.length
       width: withTiming(isFocused ? label.length * 8 + 8 : 0, { duration: 200 }),
       opacity: withTiming(isFocused ? 1 : 0, { duration: 200 }),
     };
@@ -54,16 +52,14 @@ const TabBarItem = ({ isFocused, onPress, label, icon: IconComponent }) => {
   );
 };
 
-// 2. The Custom Tab Bar mapping
 function CustomTabBar({ state, navigation, roleTab }) {
   const insets = useSafeAreaInsets();
   return (
       <View style={{ paddingBottom: insets.bottom > 0 ? insets.bottom + 4 : 16 }}
-      className="absolute bottom-0 left-0 right-0 flex-row bg-white p-4 shadow-lg shadow-black items-center justify-between">
+      className="absolute bottom-0 left-0 right-0 flex-row bg-white border-t border-slate-100 p-4 items-center justify-between">
         {state.routes.map((route, index) => {
           const isFocused = state.index === index;
           
-          // Map to the static 'RoleTab' name
           const icons = {
             Dashboard: LayoutDashboard,
             RoleTab: roleTab.icon, 
@@ -73,7 +69,6 @@ function CustomTabBar({ state, navigation, roleTab }) {
           };
           const IconComponent = icons[route.name] || Shapes;
 
-          // Dynamically decide the label to show the user
           const displayLabel = route.name === 'RoleTab' ? roleTab.name : route.name;
 
           const onPress = () => {
@@ -88,7 +83,7 @@ function CustomTabBar({ state, navigation, roleTab }) {
               key={index}
               isFocused={isFocused}
               onPress={onPress}
-              label={displayLabel} // Pass the dynamic label down
+              label={displayLabel}
               icon={IconComponent}
             />
           );

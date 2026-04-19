@@ -2,7 +2,7 @@ import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { create } from 'zustand';
 import * as SecureStore from 'expo-secure-store';
 import { registerForPushNotificationsAsync } from '../services/notificationService';
-import client from "../api/client";
+import { queryClient } from '../api/queryClient';
 
 export const useAuthStore = create((set, get) => ({
   user: null,
@@ -29,6 +29,7 @@ export const useAuthStore = create((set, get) => ({
 
   syncPushToken: async () => {
     try {
+      const client = require('../api/client').default;
       const token = await registerForPushNotificationsAsync();
       const currentUser = get().user;
 
@@ -47,12 +48,17 @@ export const useAuthStore = create((set, get) => ({
 
   initialize: async () => {
     try {
+      set({ isLoading: true });
       const token = await SecureStore.getItemAsync('userToken');
-      const savedRole = await SecureStore.getItemAsync('activeRole'); // Check for saved preference
+      const savedRole = await SecureStore.getItemAsync('activeRole');
       
       if (!token) return set({ isLoading: false });
 
+      set({ token: token });
+
+      const client = require('../api/client').default; 
       const response = await client.get('/user');
+
       const { user } = response.data.data;
 
       if (user) {
@@ -60,7 +66,6 @@ export const useAuthStore = create((set, get) => ({
           user, 
           token, 
           roles: user.roles || [],
-          // Priority: 1. Current session, 2. Saved preference, 3. First role available
           activeRole: get().activeRole || savedRole || user.roles?.[0]?.name || 'guest',
           isLoading: false 
         });
@@ -68,6 +73,7 @@ export const useAuthStore = create((set, get) => ({
       }
     } catch (e) {
       await SecureStore.deleteItemAsync('userToken');
+      console.log("Error: ", e);
       set({ user: null, token: null, roles: [], activeRole: null, isLoading: false });
     }
   },
@@ -78,6 +84,7 @@ export const useAuthStore = create((set, get) => ({
     } catch (signOutError) {
       console.log("Google SignOut failed");
     }
+    queryClient.clear();
     await SecureStore.deleteItemAsync('userToken');
     set({ user: null, token: null, activeRole: null });
   },

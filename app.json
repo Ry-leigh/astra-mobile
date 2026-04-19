@@ -19,14 +19,14 @@
       }
     },
     "android": {
+      "package": "com.mizryn.astra",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./src/assets/astra-logo.png",
         "backgroundImage": "./src/assets/android-icon-background.png",
         "monochromeImage": "./src/assets/astra-logo.png"
-      },
-      "package": "com.mizryn.astra",
-      "googleServicesFile": "./google-services.json"
+      }
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
@@ -41,9 +41,6 @@
         "expo-build-properties",
         {
           "android": {
-            "compileSdkVersion": 34,
-            "targetSdkVersion": 34,
-            "buildToolsVersion": "34.0.0",
             "usesCleartextTraffic": true
           }
         }
