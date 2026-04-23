@@ -1,14 +1,14 @@
 import { View, Text } from "react-native";
 import Layout from "../components/Layout";
 
-const ManagementScreen = () => {
+const ApplicationManagementScreen = () => {
   return (
     <Layout title="Management">
       <View>
-        <Text>Management</Text>
+        <Text>Application Management</Text>
       </View>
     </Layout>
   );
 };
 
-export default ManagementScreen;
+export default ApplicationManagementScreen;

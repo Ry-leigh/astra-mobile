@@ -12,6 +12,7 @@ export const useCreateEvent = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['events'] })
     },
+    staleTime: 0,
   });
 };
 
@@ -24,7 +25,8 @@ export const useManagedTargets = () => {
     queryFn: async () => {
       const { data } = await client.get('/targets');
       return data;
-    }
+    },
+    staleTime: 0,
   });
 };
 
@@ -38,6 +40,7 @@ export const useUpdateEvent = (eventId) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['events'] });
     },
+    staleTime: 0,
   });
 };
 
@@ -52,5 +55,6 @@ export const useDeleteEvent = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['events'] });
     },
+    staleTime: 0,
   });
 };

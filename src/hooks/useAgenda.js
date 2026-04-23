@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+  import { useQuery } from '@tanstack/react-query';
 import client from '../api/client';
 
 export const useSchedules = () => {
@@ -8,7 +8,7 @@ export const useSchedules = () => {
       const { data } = await client.get('/schedules');
       return data.data || [];
     },
-    staleTime: 1000 * 60 * 60,
+    staleTime: 0,
   });
 };
 
@@ -26,5 +26,6 @@ export const useEvents = (startDate, endDate) => {
       return []; 
     },
     enabled: !!startDate && !!endDate,
+    staleTime: 0,
   });
 };

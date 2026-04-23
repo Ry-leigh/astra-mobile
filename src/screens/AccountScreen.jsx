@@ -39,11 +39,11 @@ const AccountScreen = ({ navigation }) => {
   };
 
   const menuItems = [
-    { id: 'profile', icon: UserIcon, iconColor: '#6d28d9', title: 'Profile', subtitle: 'Your personal information', screen: 'Profile' },
-    { id: 'notifications', icon: Bell, iconColor: '#6d28d9', title: 'Notifications', subtitle: 'Manage your notifications', screen: 'Notifications' },
-    ...(activeRole === 'program_head' ? [{ id: 'management', icon: LayoutGrid, iconColor: '#6d28d9', title: 'Management', subtitle: 'App user management', screen: 'Management' }] : []),
-    { id: 'settings', icon: SettingsIcon, iconColor: '#6d28d9', title: 'Settings', subtitle: 'App preferences and theme', screen: 'Settings' },
-    { id: 'help', icon: HelpCircle, iconColor: '#6d28d9', title: 'Help & Support', subtitle: 'FAQs', screen: 'Help' },
+    { id: 'profile', icon: UserIcon, iconColor: '#8b5cf6', title: 'Profile', subtitle: 'Your personal information', screen: 'Profile' },
+    { id: 'notifications', icon: Bell, iconColor: '#8b5cf6', title: 'Notifications', subtitle: 'Manage your notifications', screen: 'Notifications' },
+    ...(activeRole === 'program_head' ? [{ id: 'management', icon: LayoutGrid, iconColor: '#8b5cf6', title: 'Management', subtitle: 'App user management', screen: 'Management' }] : []),
+    { id: 'settings', icon: SettingsIcon, iconColor: '#8b5cf6', title: 'Settings', subtitle: 'App preferences and theme', screen: 'Settings' },
+    { id: 'help', icon: HelpCircle, iconColor: '#8b5cf6', title: 'Help & Support', subtitle: 'FAQs', screen: 'Help' },
   ];
 
   return (

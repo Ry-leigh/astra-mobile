@@ -8,11 +8,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import ProgramStack from './ProgramStack';
 import DashboardScreen from '../screens/DashboardScreen';
-import StudentCoursesScreen from '../screens/StudentCoursesScreen';
-import InstructorClassesScreen from '../screens/InstructorClassesScreen';
 import CalendarScreen from '../screens/CalendarScreen';
 import AccountStack from './AccountStack';
 import AnnouncementsScreen from '../screens/AnnouncementsScreen';
+import StudentCourseStack from './StudentCourseStack';
+import InstructorClassStack from './InstructorClassStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -64,7 +64,7 @@ function CustomTabBar({ state, navigation, roleTab }) {
             Dashboard: LayoutDashboard,
             RoleTab: roleTab.icon, 
             Calendar: Calendar,
-            Announcements: Megaphone,
+            News: Megaphone,
             Account: User,
           };
           const IconComponent = icons[route.name] || Shapes;
@@ -97,11 +97,11 @@ export default function TabNavigator() {
 
   const getRoleTabConfig = () => {
     switch (activeRole) {
-      case 'instructor': return { name: 'Classes', icon: BookCopy, component: InstructorClassesScreen };
+      case 'instructor': return { name: 'Classes', icon: BookCopy, component: InstructorClassStack };
       case 'program_head': return { name: 'Programs', icon: Landmark, component: ProgramStack };
       case 'student':
-      case 'class_officer': return { name: 'Courses', icon: LibraryBig, component: StudentCoursesScreen };
-      default: return { name: 'Courses', icon: LibraryBig, component: StudentCoursesScreen };
+      case 'class_officer': return { name: 'Courses', icon: LibraryBig, component: StudentCourseStack };
+      default: return { name: 'Courses', icon: LibraryBig, component: StudentCourseStack };
     }
   };
 
@@ -113,10 +113,10 @@ export default function TabNavigator() {
       screenOptions={{ headerShown: false, sceneStyle: { backgroundColor: 'transparent' } }}
     >
       <Tab.Screen name="Dashboard" component={DashboardScreen} />
-      <Tab.Screen name="RoleTab" component={roleTab.component} />
+      <Tab.Screen name="RoleTab" component={roleTab.component} options={{ popToTopOnBlur: true }} />
       <Tab.Screen name="Calendar" component={CalendarScreen} />
-      <Tab.Screen name="Announcements" component={AnnouncementsScreen} />
-      <Tab.Screen name="Account" component={AccountStack} options={{ popToTopOnBlur: true }}/>
+      <Tab.Screen name="News" component={AnnouncementsScreen} />
+      <Tab.Screen name="Account" component={AccountStack} options={{ popToTopOnBlur: true }} />
     </Tab.Navigator>
   );
 }

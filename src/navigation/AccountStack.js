@@ -4,7 +4,7 @@ import AccountScreen from '../screens/AccountScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import HelpScreen from '../screens/HelpScreen';
-import ManagementScreen from '../screens/ManagementScreen';
+import ManagementScreen from '../screens/ApplicationManagementScreen';
 import NotificationScreen from '../screens/NotificationScreen';
 
 const Stack = createNativeStackNavigator();

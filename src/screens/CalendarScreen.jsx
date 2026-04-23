@@ -224,7 +224,7 @@ const AgendaSection = ({selectedDate, events, schedules, onEventPress }) => {
 
   return (
     <View className="mt-6 flex-1">
-      <View className="flex-row p-1 mb-8 bg-slate-100/50 rounded-2xl border border-slate-200/50">
+      <View className="flex-row mb-8 bg-slate-100/50 rounded-2xl border border-slate-200/50">
         {[
           { id: 'schedules', label: 'Schedules', count: dailySchedules.length },
           { id: 'events', label: 'Events', count: dailyEvents.length }
@@ -259,7 +259,7 @@ const AgendaSection = ({selectedDate, events, schedules, onEventPress }) => {
             <EventCard 
               key={item.id || index} 
               item={item} 
-              onPress={onEventPress} // <-- Pass it down here
+              onPress={onEventPress}
             />
           ))
         )}

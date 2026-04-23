@@ -44,6 +44,9 @@ const Login = () => {
       setMessage("");
       setIsSubmitting(true);
       await GoogleSignin.hasPlayServices();
+      try {
+        await GoogleSignin.signOut();
+      } catch (e) {}
       const googleResponse = await GoogleSignin.signIn();
       
       if (isSuccessResponse(googleResponse)) {
