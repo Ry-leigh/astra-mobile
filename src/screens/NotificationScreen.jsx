@@ -3,7 +3,7 @@ import Layout from "../components/Layout";
 
 const NotificationScreen = () => {
   return (
-    <Layout title="Notifications">
+    <Layout title="Notifications" backButton>
       <View>
         <Text>Notifications</Text>
       </View>

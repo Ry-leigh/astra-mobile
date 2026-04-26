@@ -33,12 +33,12 @@ const ScheduleCard = ({ item }) => {
   const displayName = item.course || item.subject || item.title;
 
   return (
-    <View className={`flex-row items-center p-5 mb-4 border border-slate-100 rounded-3xl shadow-sm shadow-slate-200/50 ${isSuspended ? 'bg-slate-100' : 'bg-white'}`}>
-      <View className={`w-20 h-20 items-center justify-center rounded-2xl mr-5 ${isSuspended ? 'bg-slate-200' : 'bg-indigo-50/50'}`}>
-        <Text className={`font-poppins-bold text-xs mb-1 uppercase ${isSuspended ? 'text-slate-300' : 'text-indigo-600'}`}>
+    <View className={`flex-row items-center p-5 mb-4 border border-slate-100 rounded-3xl ${isSuspended ? 'bg-slate-100' : 'bg-white'}`}>
+      <View className={`w-20 h-20 items-center justify-center rounded-2xl mr-5 ${isSuspended ? 'bg-slate-200' : 'bg-violet-50'}`}>
+        <Text className={`font-poppins-bold text-xs mb-1 uppercase ${isSuspended ? 'text-slate-300' : 'text-violet-700'}`}>
           {dayAbbreviation}
         </Text>
-        <CalendarIcon size={24} color={isSuspended ? '#cbd5e1' : '#4f46e5'} strokeWidth={2} />
+        <CalendarIcon size={24} color={isSuspended ? '#cbd5e1' : '#6d28d9'} strokeWidth={2} />
       </View>
 
       <View className="flex-1 justify-center">
@@ -143,7 +143,7 @@ const EventCard = ({ item, onPress }) => {
         {item.title}
       </Text>
       
-      <Text className={`font-poppins text-sm ${textStyles[item.type?.toLowerCase() || 'default']} leading-5 mb-4`}>
+      <Text className={`font-poppins text-sm ${textStyles[item.type?.toLowerCase() || 'default']} leading-5 mb-4`} numberOfLines={1}>
         {item.description}
       </Text>
 
@@ -160,9 +160,9 @@ const EventCard = ({ item, onPress }) => {
 };
 
 const EmptyState = ({ message }) => (
-  <View className="items-center justify-center py-10 opacity-50">
-    <CalendarMinus2 size={40} color="#94a3b8" />
-    <Text className="font-poppins text-slate-400 mt-2 text-center">{message}</Text>
+  <View className="items-center justify-center py-10">
+    <CalendarMinus2 size={40} color="#94a3b8" strokeWidth={1.5}/>
+    <Text className="font-poppins-medium text-slate-400 mt-4 text-sm">{message}</Text>
   </View>
 );
 
@@ -236,11 +236,11 @@ const AgendaSection = ({selectedDate, events, schedules, onEventPress }) => {
               onPress={() => setActiveTab(tab.id)}
               className={`flex-1 py-3 rounded-2xl flex-row items-center justify-center ${isFocused ? 'bg-white' : ''}`}
             >
-              <Text className={`font-poppins-semibold text-sm mr-2 ${isFocused ? 'text-indigo-600' : 'text-slate-400'}`}>
+              <Text className={`font-poppins-semibold text-sm mr-2 ${isFocused ? 'text-violet-700' : 'text-slate-400'}`}>
                 {tab.label}
               </Text>
-              <View className={`px-2 py-0.5 rounded-lg ${isFocused ? 'bg-indigo-100' : 'bg-slate-200'}`}>
-                <Text className={`font-poppins-bold text-[8px] text-center ${isFocused ? 'text-indigo-600' : 'text-slate-500'}`}>
+              <View className={`px-2 py-0.5 rounded-lg ${isFocused ? 'bg-violet-100' : 'bg-slate-200'}`}>
+                <Text className={`font-poppins-bold text-[8px] text-center ${isFocused ? 'text-violet-700' : 'text-slate-500'}`}>
                   {tab.count}
                 </Text>
               </View>
@@ -251,10 +251,17 @@ const AgendaSection = ({selectedDate, events, schedules, onEventPress }) => {
 
       <ScrollView className="flex-1 px-2" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 120 }}>
         {activeTab === 'schedules' ? (
-          dailySchedules.map((item, index) => (
-            <ScheduleCard key={index} item={item} index={index} />
-          ))
+          dailySchedules.length > 0 ? (
+            dailySchedules.map((item, index) => (
+              <View key={index} className="flex-1 items-center justify-center">
+                <ScheduleCard item={item} index={index} />
+              </View>
+            ))
+          ) : (
+            <EmptyState message="No schedules found" />
+          )
         ) : (
+          dailyEvents.length > 0 ? (
           dailyEvents.map((item, index) => (
             <EventCard 
               key={item.id || index} 
@@ -262,6 +269,9 @@ const AgendaSection = ({selectedDate, events, schedules, onEventPress }) => {
               onPress={onEventPress}
             />
           ))
+          ) : (
+            <EmptyState message="No events found" />
+          )
         )}
       </ScrollView>
     </View>
@@ -329,9 +339,9 @@ const CalendarScreen = () => {
             backgroundColor: '#ffffff',
             calendarBackground: 'transparent',
             textSectionTitleColor: '#94a3b8',
-            selectedDayBackgroundColor: '#4f46e5',
+            selectedDayBackgroundColor: '#6d28d9',
             selectedDayTextColor: '#ffffff',
-            todayTextColor: '#4f46e5',
+            todayTextColor: '#6d28d9',
             dayTextColor: '#1e293b',
             textDisabledColor: '#cbd5e1',
             monthTextColor: '#0f172a',
@@ -416,7 +426,7 @@ const CalendarScreen = () => {
                 borderRadius: 6,
               },
               selected: {
-                backgroundColor: '#4f46e5',
+                backgroundColor: '#6d28d9',
                 borderRadius: 12,
               },
               selectedText: {
@@ -424,7 +434,7 @@ const CalendarScreen = () => {
                 color: '#ffffff',
               },
               today: {
-                color: '#4f46e5', 
+                color: '#6d28d9', 
               }
             }
           }}
@@ -473,23 +483,36 @@ const CalendarScreen = () => {
         )}
       </View>
 
+      {(viewingEvent || editingEvent || deletingEvent || isModalVisible) && (
+        <TouchableOpacity
+          className="absolute inset-0 bg-black/40"
+          style={{
+            position: 'absolute',
+            top: '-100%',
+            left: '-100%',
+            right: '-100%',
+            bottom: '-100%',
+            zIndex: 1
+          }}
+          onPress={() => {setViewingEvent(null); setEditingEvent(null); setDeletingEvent(null);}}
+        />
+      )}
+
       <Modal
         visible={isModalVisible}
         animationType="slide"
         transparent={true}
       >
-        <View className="flex-1 bg-black/50 justify-end">
-          <CreateEventModal 
-            selectedDate={selected} 
-            onClose={() => setModalVisible(false)} 
-          />
-        </View>
+        <CreateEventModal 
+          selectedDate={selected} 
+          onClose={() => setModalVisible(false)} 
+        />  
       </Modal>
 
       {activeRole === 'program_head' && (
         <TouchableOpacity 
           onPress={() => setModalVisible(true)}
-          className="absolute bottom-6 right-6 size-16 bg-indigo-600 rounded-2xl items-center justify-center"
+          className="absolute bottom-6 right-6 size-16 bg-violet-700 rounded-2xl items-center justify-center"
         >
           <Plus size={28} color="white" />
         </TouchableOpacity>

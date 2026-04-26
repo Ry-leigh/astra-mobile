@@ -45,7 +45,7 @@ const ManagementStudentAttendanceScreen = () => {
           ) : (
             <View className="items-center mt-6 py-10 border-2 border-dashed border-slate-100 rounded-3xl">
               <ClipboardCheck size={40} color="#cbd5e1" />
-              <Text className="font-poppins-regular text-slate-400 mt-2">No logs found for this student.</Text>
+              <Text className="font-poppins text-slate-400 mt-2">No logs found for this student.</Text>
             </View>
           )}
         </View>
@@ -76,7 +76,7 @@ const AttendanceLogItem = ({ log }) => {
   };
 
   return (
-    <View className="bg-white p-4 rounded-3xl mb-3 border border-slate-100 flex-row items-center justify-between shadow-sm">
+    <View className="bg-white p-4 rounded-3xl mb-3 border border-slate-100 flex-row items-center justify-between">
       <View className="flex-1 mr-2">
         <View className="flex-row items-center gap-1.5">
           <Text className="font-poppins-semibold text-slate-800 text-base">
@@ -84,7 +84,7 @@ const AttendanceLogItem = ({ log }) => {
           </Text>
           {log.isVerified && <CheckCircle2 size={14} color="#10b981" />}
         </View>
-        <Text className="font-poppins-regular text-slate-400 text-xs mt-0.5">
+        <Text className="font-poppins text-slate-400 text-xs mt-0.5">
           {log.time ? `Check-in: ${log.time}` : 'No timestamp'}
         </Text>
         {log.remarks && (

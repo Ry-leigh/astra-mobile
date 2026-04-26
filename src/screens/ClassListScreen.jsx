@@ -18,7 +18,7 @@ const ClassListScreen = () => {
       <FlatList
         data={classes}
         keyExtractor={(item) => item.id.toString()}
-        ListEmptyComponent={<Text className="text-slate-400 text-center mt-10 font-poppins-regular">No classes found.</Text>}
+        ListEmptyComponent={<Text className="text-slate-400 text-center mt-10 font-poppins">No classes found.</Text>}
         renderItem={({ item }) => (
           <TouchableOpacity 
             activeOpacity={0.7}
@@ -27,7 +27,7 @@ const ClassListScreen = () => {
               courseName: item.course.course,
               courseCode: item.course.code
             })}
-            className="bg-white p-5 rounded-3xl mb-4 border border-slate-100 shadow-sm flex-row items-center"
+            className="bg-white p-5 rounded-3xl mb-4 border border-slate-100 flex-row items-center"
           >
             <View className="bg-indigo-50 p-3 rounded-2xl mr-4">
               <BookOpen size={24} color="#4f46e5" />
@@ -36,7 +36,7 @@ const ClassListScreen = () => {
               <Text className="font-poppins-semibold text-slate-800 text-base">
                 {item.course.course}
               </Text>
-              <Text className="font-poppins-regular text-slate-400 text-xs mt-0.5 mb-1">
+              <Text className="font-poppins text-slate-400 text-xs mt-0.5 mb-1">
                 {item.course.code} • {item.units} Units
               </Text>
               <View className="flex-row items-center">

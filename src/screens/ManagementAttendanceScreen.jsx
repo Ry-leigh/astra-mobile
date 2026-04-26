@@ -83,7 +83,7 @@ const StudentAttendanceRow = React.memo(({ student, attendance, onUpdate }) => {
       {showDetails && (
         <View className="mt-3 pt-3 border-t border-slate-50">
           <TextInput
-            className="bg-slate-50 rounded-xl px-3 py-2 font-poppins-regular text-xs text-slate-700"
+            className="bg-slate-50 rounded-xl px-3 py-2 font-poppins text-xs text-slate-700"
             placeholder="Add remarks (e.g., Doctor's note, reason for late)..."
             value={attendance?.remarks || ''}
             onChangeText={(val) => onUpdate(student.id, { ...attendance, remarks: val })}
@@ -284,7 +284,7 @@ const ManagementAttendanceScreen = () => {
         <TouchableOpacity 
           onPress={handleSubmit}
           disabled={submitMutation.isPending || verifyMutation.isPending}
-          className="bg-indigo-600 py-4 rounded-2xl items-center flex-row justify-center shadow-md shadow-indigo-300"
+          className="bg-indigo-600 py-4 rounded-2xl items-center flex-row justify-center"
         >
           {(submitMutation.isPending || verifyMutation.isPending) && (
             <ActivityIndicator color="#fff" size="small" className="mr-2" />

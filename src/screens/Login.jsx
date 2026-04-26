@@ -10,7 +10,6 @@ import lvccLogo from "../assets/lvcc-logo.png";
 import lvccTextLogo from "../assets/lvcc-logo-text-white.png";
 import astraLogo from "../assets/astra-logo.png";
 import background from "../assets/login-bg.png";
-import MockUI from "../components/ui/mockUI";
 
 const Login = () => {
   const insets = useSafeAreaInsets();
@@ -159,7 +158,6 @@ const Login = () => {
                 <TouchableOpacity onPress={() => handleDevLogin('classofficer01@astra.test')} className="m-1 bg-white/10 p-2 rounded">
                   <Text className="text-white text-xs">Class Officer</Text>
                 </TouchableOpacity>
-                {/* <MockUI /> */}
               </View>
             )}
           </View>

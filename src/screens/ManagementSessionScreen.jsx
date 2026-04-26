@@ -101,14 +101,14 @@ const ManagementSessionScreen = () => {
           </Text>
           <View className="gap-1 mb-1">
             {/* <CheckCircle2 size={12} color="#fff" />
-            <Text className="font-poppins-regular text-indigo-100 ml-1 text-sm">
+            <Text className="font-poppins text-indigo-100 ml-1 text-sm">
               {!snapshot?.verifier && !snapshot?.verified_at ? "Submitted Session" : "Verified Session"}
             </Text> */}
-            <Text className="font-poppins-regular text-indigo-100 ml-1 text-sm">Time In: {format(parse(snapshot?.time_in, 'HH:mm:ss', new Date()), 'hh:mm aa')}</Text>
-            <Text className="font-poppins-regular text-indigo-100 ml-1 text-sm">Time Out: {format(parse(snapshot?.time_out, 'HH:mm:ss', new Date()), 'hh:mm aa')}</Text>
+            <Text className="font-poppins text-indigo-100 ml-1 text-sm">Time In: {format(parse(snapshot?.time_in, 'HH:mm:ss', new Date()), 'hh:mm aa')}</Text>
+            <Text className="font-poppins text-indigo-100 ml-1 text-sm">Time Out: {format(parse(snapshot?.time_out, 'HH:mm:ss', new Date()), 'hh:mm aa')}</Text>
           </View>
           {snapshot?.remarks && (
-            <Text className="font-poppins-regular text-indigo-100 mb-1">
+            <Text className="font-poppins text-indigo-100 mb-1">
               Remarks: {snapshot?.remarks}
             </Text>
           )}
@@ -142,7 +142,7 @@ const ManagementSessionScreen = () => {
             <TouchableOpacity 
               onPress={handleVerify}
               disabled={verifyMutation.isPending}
-              className="flex-1 flex-row items-center justify-center bg-emerald-500 py-3 rounded-2xl shadow-sm"
+              className="flex-1 flex-row items-center justify-center bg-emerald-500 py-3 rounded-2xl"
             >
               {verifyMutation.isPending ? <ActivityIndicator color="#fff" size="small" /> : <ShieldCheck size={16} color="#fff" />}
               <Text className="font-poppins-semibold text-white ml-2">Verify Session</Text>
@@ -167,19 +167,19 @@ const ManagementSessionScreen = () => {
         <View className="flex-row gap-3 mb-6">
           <View className="flex-1 bg-white p-4 rounded-3xl border border-slate-100 items-center">
             <Text className="font-poppins-semibold text-emerald-500 text-xl">{stats.Present + (stats.GracePresent ? stats.GracePresent : 0) || 0}</Text>
-            <Text className="font-poppins-regular text-slate-400 text-[10px] uppercase">Present</Text>
+            <Text className="font-poppins text-slate-400 text-[10px] uppercase">Present</Text>
           </View>
           <View className="flex-1 bg-white p-4 rounded-3xl border border-slate-100 items-center">
             <Text className="font-poppins-semibold text-amber-500 text-xl">{stats.Late || 0}</Text>
-            <Text className="font-poppins-regular text-slate-400 text-[10px] uppercase">Late</Text>
+            <Text className="font-poppins text-slate-400 text-[10px] uppercase">Late</Text>
           </View>
           <View className="flex-1 bg-white p-4 rounded-3xl border border-slate-100 items-center">
             <Text className="font-poppins-semibold text-rose-500 text-xl">{stats.Absent + (stats.Suspended ? stats.Suspended : 0) || 0}</Text>
-            <Text className="font-poppins-regular text-slate-400 text-[10px] uppercase">Absent</Text>
+            <Text className="font-poppins text-slate-400 text-[10px] uppercase">Absent</Text>
           </View>
           <View className="flex-1 bg-white p-4 rounded-3xl border border-slate-100 items-center">
             <Text className="font-poppins-semibold text-blue-500 text-xl">{stats.Excused || 0}</Text>
-            <Text className="font-poppins-regular text-slate-400 text-[10px] uppercase">Excused</Text>
+            <Text className="font-poppins text-slate-400 text-[10px] uppercase">Excused</Text>
           </View>
         </View>
 
@@ -192,7 +192,7 @@ const ManagementSessionScreen = () => {
           const colors = getStatusColor(log.status);
           
           return (
-            <View key={log.student_id} className="bg-white p-4 rounded-3xl mb-3 border border-slate-100 flex-row items-center shadow-sm">
+            <View key={log.student_id} className="bg-white p-4 rounded-3xl mb-3 border border-slate-100 flex-row items-center">
               <View className="w-10 h-10 rounded-full bg-slate-50 items-center justify-center mr-3">
                 {log.photo ? (
                   <Image source={{ uri: log.photo }} className="w-10 h-10 rounded-full" />
@@ -206,7 +206,7 @@ const ManagementSessionScreen = () => {
                   {log.student_name}
                 </Text>
                 {log.check_in_time && (
-                  <Text className="font-poppins-regular text-slate-400 text-[10px] mt-0.5">
+                  <Text className="font-poppins text-slate-400 text-[10px] mt-0.5">
                     Check-in: {log.check_in_time}
                   </Text>
                 )}

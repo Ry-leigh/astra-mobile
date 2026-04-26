@@ -31,18 +31,18 @@ const DeleteEventModal = ({ event, onClose, onDeleted }) => {
 
   return (
     <View className="flex-1 justify-center items-center px-6">
-      <Pressable className="absolute inset-0 bg-black/60" onPress={onClose} />
+      <Pressable className="absolute inset-0" onPress={onClose} />
       
       <View className="bg-white w-full rounded-3xl p-6 items-center">
         <View className="size-16 bg-rose-100 rounded-full items-center justify-center mb-4">
           <AlertTriangle size={32} color="#e11d48" />
         </View>
 
-        <Text style={{ fontFamily: 'Poppins_600SemiBold' }} className="text-xl text-slate-900 text-center">
+        <Text className="font-poppins-semibold text-xl text-slate-900 text-center">
           Delete Event?
         </Text>
         
-        <Text style={{ fontFamily: 'Poppins_400Regular' }} className="text-slate-500 text-center mt-2 mb-6">
+        <Text className="font-poppins text-slate-500 text-center mt-2 mb-6">
           Are you sure you want to delete <Text className="font-poppins-bold text-slate-700">"{event.title}"</Text>? This action cannot be undone.
         </Text>
 
@@ -51,7 +51,7 @@ const DeleteEventModal = ({ event, onClose, onDeleted }) => {
             onPress={onClose}
             className="flex-1 bg-slate-100 p-4 rounded-2xl items-center"
           >
-            <Text style={{ fontFamily: 'Poppins_600SemiBold' }} className="text-slate-600">Cancel</Text>
+            <Text className="font-poppins-semibold text-slate-600">Cancel</Text>
           </TouchableOpacity>
 
           <TouchableOpacity 
@@ -64,7 +64,7 @@ const DeleteEventModal = ({ event, onClose, onDeleted }) => {
             ) : (
               <View className="flex-row items-center">
                 <Trash2 size={18} color="white" className="mr-2" />
-                <Text style={{ fontFamily: 'Poppins_600SemiBold' }} className="text-white ml-2">Delete</Text>
+                <Text className="font-poppins-semibold text-white ml-2">Delete</Text>
               </View>
             )}
           </TouchableOpacity>

@@ -19,7 +19,7 @@ const AttendanceLogItem = ({ log }) => {
   };
 
   return (
-    <View className="bg-white p-4 rounded-3xl mb-3 border border-slate-100 flex-row items-center justify-between shadow-sm">
+    <View className="bg-white p-4 rounded-3xl mb-3 border border-slate-100 flex-row items-center justify-between">
       <View className="flex-1 mr-2">
         <View className="flex-row items-center gap-1.5">
           <Text className="font-poppins-semibold text-slate-800 text-base">
@@ -30,7 +30,7 @@ const AttendanceLogItem = ({ log }) => {
           )}
         </View>
         
-        <Text className="font-poppins-regular text-slate-400 text-xs mt-0.5">
+        <Text className="font-poppins text-slate-400 text-xs mt-0.5">
           {log.time ? `Check-in: ${log.time}` : 'No timestamp'}
         </Text>
         
@@ -107,7 +107,7 @@ const ClassScreen = () => {
                 ) : (
                   <View className="items-center mt-10 py-10 border-2 border-dashed border-slate-100 rounded-3xl">
                     <ClipboardCheck size={40} color="#cbd5e1" />
-                    <Text className="font-poppins-regular text-slate-400 mt-2">No logs found yet.</Text>
+                    <Text className="font-poppins text-slate-400 mt-2">No logs found yet.</Text>
                   </View>
                 )}
               </View>
@@ -132,7 +132,7 @@ const ClassScreen = () => {
                   </View>
                   <View className="flex-1">
                     <Text className="font-poppins-semibold text-slate-800">{student.fullName}</Text>
-                    <Text className="font-poppins-regular text-slate-400 text-xs">Student</Text>
+                    <Text className="font-poppins text-slate-400 text-xs">Student</Text>
                   </View>
                 </View>
               ))
@@ -140,7 +140,7 @@ const ClassScreen = () => {
             
             {classmates?.length === 0 && !loadingStudents && (
               <View className="items-center mt-10">
-                <Text className="font-poppins-regular text-slate-400">No classmates found.</Text>
+                <Text className="font-poppins text-slate-400">No classmates found.</Text>
               </View>
             )}
           </View>

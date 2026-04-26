@@ -1,4 +1,3 @@
-// src/screens/InstructorClassesScreen.jsx
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Layout from '../components/Layout';
@@ -26,7 +25,7 @@ const InstructorClassesScreen = ({ navigation }) => {
         keyExtractor={(item) => item.id.toString()}
         ListEmptyComponent={
           <View className="items-center">
-            <Text className="font-poppins-regular text-slate-400">No assigned classes found.</Text>
+            <Text className="font-poppins text-slate-400">No assigned classes found.</Text>
           </View>
         }
         renderItem={({ item }) => (
@@ -37,7 +36,7 @@ const InstructorClassesScreen = ({ navigation }) => {
               courseName: item.course.course,
               courseCode: item.course.code
             })}
-            className="bg-white p-5 rounded-3xl mb-4 border border-slate-100 shadow-sm flex-row items-center"
+            className="bg-white p-5 rounded-3xl mb-4 border border-slate-100 flex-row items-center"
           >
             <View className="items-center justify-center p-3 m-1 rounded-xl bg-violet-50 mr-4">
               <BookText size={24} color="#8b5cf6" />
@@ -52,7 +51,7 @@ const InstructorClassesScreen = ({ navigation }) => {
               </Text>
               <View className="flex-row items-center mt-2">
                 <Users size={12} color="#94a3b8" />
-                <Text className="font-poppins-regular text-slate-400 text-xs ml-1">
+                <Text className="font-poppins text-slate-400 text-xs ml-1">
                   {item.enrollees_count} students
                 </Text>
               </View>

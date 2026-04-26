@@ -201,7 +201,7 @@ const EditEventModal = ({ event, onClose }) => {
 
   return (
     <View className="flex-1 justify-end" style={{ paddingBottom: insets.bottom }}>
-      <Pressable className="absolute inset-0 bg-black/40" onPress={onClose} />
+      <Pressable className="absolute inset-0" onPress={onClose} />
 
       <KeyboardAvoidingView behavior="padding" className="bg-white rounded-t-3xl overflow-hidden" style={{ height: '80%' }}>
         <View className="p-6 flex-1">
@@ -340,7 +340,7 @@ const EditEventModal = ({ event, onClose }) => {
                     All-Day Event
                   </Text>
                   <View className={`w-10 h-6 rounded-full p-1 ${isAllDay ? 'bg-indigo-600 items-end' : 'bg-slate-300 items-start'}`}>
-                    <View className="w-4 h-4 bg-white rounded-full shadow-sm" />
+                    <View className="w-4 h-4 bg-white rounded-full" />
                   </View>
                 </TouchableOpacity>
 
@@ -396,7 +396,7 @@ const EditEventModal = ({ event, onClose }) => {
                     </Text>
                   </View>
                   <View className={`w-12 h-7 rounded-full p-1 ${isGlobal ? 'bg-indigo-600 items-end' : 'bg-slate-300 items-start'}`}>
-                    <View className="w-5 h-5 bg-white rounded-full shadow-sm" />
+                    <View className="w-5 h-5 bg-white rounded-full" />
                   </View>
                 </TouchableOpacity>
 

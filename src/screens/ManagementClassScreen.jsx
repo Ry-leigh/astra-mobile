@@ -17,7 +17,7 @@ const ManagementClassScreen = ({ route, navigation }) => {
   const unenrollMutation = useUnenrollStudent();
   const { user, activeRole } = useAuthStore();
 
-  const isInstructor = activeRole === 'instructor' || activeRole === 'program_head';
+  const isInstructor = activeRole === 'program_head';
 
   const [isEnrollModalVisible, setIsEnrollModalVisible] = useState(false);
   const [searchInput, setSearchInput] = useState('');
@@ -25,7 +25,7 @@ const ManagementClassScreen = ({ route, navigation }) => {
   const [selectedStudentId, setSelectedStudentId] = useState(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => setDebouncedSearch(searchInput), 500);
+    const timer = setTimeout(() => setDebouncedSearch(searchInput), 300);
     return () => clearTimeout(timer);
   }, [searchInput]);
 
@@ -126,7 +126,7 @@ const ManagementClassScreen = ({ route, navigation }) => {
                     classId: classId,
                     studentName: student.fullName
                   })}
-                  className="bg-white p-4 rounded-3xl mb-3 border border-slate-100 flex-row items-center shadow-sm"
+                  className="bg-white p-4 rounded-3xl mb-3 border border-slate-100 flex-row items-center"
                 >
                   <View className="w-12 h-12 rounded-full bg-slate-50 items-center justify-center mr-4">
                     {student.photo ? (
@@ -142,7 +142,7 @@ const ManagementClassScreen = ({ route, navigation }) => {
                         <View><Text className="font-poppins-medium text-slate-400 text-xs bg-violet-100 text-violet-600 px-2 py-0.5 rounded-md">YOU</Text></View>
                       )}
                     </View>
-                    <Text className="font-poppins-regular text-slate-400 text-xs">Tap to view logs</Text>
+                    <Text className="font-poppins text-slate-400 text-xs">Tap to view logs</Text>
                   </View>
                   {/* INSTRUCTOR ONLY: Unenroll Button */}
                   {isInstructor ? (
@@ -161,7 +161,7 @@ const ManagementClassScreen = ({ route, navigation }) => {
             
             {classmates?.length === 0 && !loadingStudents && (
               <View className="items-center mt-10">
-                <Text className="font-poppins-regular text-slate-400">No students found.</Text>
+                <Text className="font-poppins text-slate-400">No students found.</Text>
               </View>
             )}
           </View>
@@ -185,13 +185,13 @@ const ManagementClassScreen = ({ route, navigation }) => {
                         navigation.navigate('ManageSession', { sessionId: session.id, classId: classId });
                       }
                     }}
-                    className="bg-white p-4 rounded-3xl mb-3 border border-slate-100 flex-row items-center justify-between shadow-sm"
+                    className="bg-white p-4 rounded-3xl mb-3 border border-slate-100 flex-row items-center justify-between"
                   >
                     <View className="flex-1 mr-2">
                       <Text className="font-poppins-semibold text-slate-800 text-base">
                         {new Date(session.session_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                       </Text>
-                      <Text className="font-poppins-regular text-slate-400 text-xs mt-0.5">
+                      <Text className="font-poppins text-slate-400 text-xs mt-0.5">
                         {session.instructor_time_in ? `Started: ${session.instructor_time_in}` : 'Not yet started'}
                       </Text>
                       {session.remarks && (
@@ -223,7 +223,7 @@ const ManagementClassScreen = ({ route, navigation }) => {
             {sessions?.length === 0 && !loadingSessions && (
               <View className="items-center mt-6 py-10 border-2 border-dashed border-slate-100 rounded-3xl">
                 <CalendarClock size={40} color="#cbd5e1" />
-                <Text className="font-poppins-regular text-slate-400 mt-2">No class sessions recorded yet.</Text>
+                <Text className="font-poppins text-slate-400 mt-2">No class sessions recorded yet.</Text>
               </View>
             )}
           </View>
@@ -237,9 +237,9 @@ const ManagementClassScreen = ({ route, navigation }) => {
         onRequestClose={() => setIsEnrollModalVisible(false)}
       >
         <View className="flex-1 justify-center items-center bg-black/50 px-5">
-          <View className="bg-white w-full max-h-[80%] rounded-3xl p-6 shadow-xl">
+          <View className="bg-white w-full max-h-[80%] rounded-3xl p-6">
             <Text className="font-poppins-semibold text-lg text-slate-800 mb-1">Enroll Student</Text>
-            <Text className="font-poppins-regular text-xs text-slate-500 mb-5">
+            <Text className="font-poppins text-xs text-slate-500 mb-5">
               Search by name, email, or student number.
             </Text>
             
@@ -260,7 +260,7 @@ const ManagementClassScreen = ({ route, navigation }) => {
             {/* Search Results List */}
             <ScrollView className="mb-2 flex-grow-0" showsVerticalScrollIndicator={false}>
               {debouncedSearch.length > 1 && searchResults?.length === 0 && !isSearching && (
-                 <Text className="font-poppins-regular text-slate-400 text-center py-4 text-xs">
+                 <Text className="font-poppins text-slate-400 text-center py-4 text-xs">
                    No unenrolled students found matching "{debouncedSearch}".
                  </Text>
               )}
@@ -287,7 +287,7 @@ const ManagementClassScreen = ({ route, navigation }) => {
                     <Text className={`font-poppins-semibold text-sm ${selectedStudentId === student.id ? 'text-indigo-700' : 'text-slate-800'}`}>
                       {student.fullName}
                     </Text>
-                    <Text className="font-poppins-regular text-slate-400 text-[10px]">
+                    <Text className="font-poppins text-slate-400 text-[10px]">
                       {student.studentNumber || 'No ID'} • {student.email}
                     </Text>
                   </View>

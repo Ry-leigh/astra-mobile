@@ -12,7 +12,7 @@ export const useSubmitAttendance = () => {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries(['class-sessions']);
     },
-    staleTime: 0,
+    staleTime: 1000 * 60 * 5,
   });
 };
 
@@ -24,7 +24,7 @@ export const useClassStudents = (classId) => {
       return data.data;
     },
     enabled: !!classId,
-    staleTime: 0,
+    staleTime: 1000 * 60 * 5,
   });
 };
 
@@ -36,7 +36,7 @@ export const useClassSessions = (classId) => {
       return data.data;
     },
     enabled: !!classId,
-    staleTime: 0,
+    staleTime: 1000 * 60 * 5,
   });
 };
 
@@ -48,7 +48,7 @@ export const useSessionSnapshot = (sessionId) => {
       return data.data;
     },
     enabled: !!sessionId,
-    staleTime: 0,
+    staleTime: 1000 * 60 * 5,
   });
 };
 

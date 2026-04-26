@@ -3,7 +3,7 @@ import Layout from "../components/Layout";
 
 const ApplicationManagementScreen = () => {
   return (
-    <Layout title="Management">
+    <Layout title="Management" backButton>
       <View>
         <Text>Application Management</Text>
       </View>

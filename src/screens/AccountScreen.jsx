@@ -49,7 +49,7 @@ const AccountScreen = ({ navigation }) => {
   return (
     <Layout title="Account">
       <ScrollView>
-        <View className="flex-row items-center p-5 mb-6 border border-slate-200 bg-slate-50 rounded-2xl">
+        <View className="flex-row items-center p-5 mb-6 border border-slate-200/70 rounded-2xl">
           {user.photo ? (
             <Image 
               source={{ uri: user.photo }} 

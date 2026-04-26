@@ -3,7 +3,7 @@ import Layout from '../components/Layout';
 
 const ProfileScreen = () => {
   return (
-    <Layout title="Profile">
+    <Layout title="Profile" backButton>
       <View>
         <Text>Profile</Text>
       </View>

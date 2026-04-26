@@ -2,11 +2,12 @@ import React, { useState, useMemo } from 'react';
 import { View, Text, FlatList, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import Layout from '../components/Layout';
 import { useMyEnrollments } from '../hooks/useEnrollments';
-import { BookOpen, User, ChevronRight } from 'lucide-react-native';
+import { BookText, User, ChevronRight, SquareUserRound, GraduationCap } from 'lucide-react-native';
 import { useNavigation } from '@react-navigation/native';   
 import { useAuthStore } from '../store/authStore';
 
 const StudentCoursesScreen = () => {
+  
   const { data: enrollments, isLoading } = useMyEnrollments();
   const [activeTab, setActiveTab] = useState(null);
   const navigation = useNavigation();
@@ -52,21 +53,24 @@ const StudentCoursesScreen = () => {
 
   return (
     <Layout title="Courses">
-      <View className="flex-row">
-          {semesters.map((sem) => {
-            const isActive = activeTab === sem.id;
-            return (
-              <TouchableOpacity
-                key={sem.id}
-                onPress={() => setActiveTab(sem.id)}
-                className={`flex-1 mr-3 px-5 py-2 rounded-2xl border items-center ${isActive ? 'bg-indigo-600 border-indigo-600' : 'bg-white border-slate-200'}`}
-              >
-                <Text className={isActive ? 'font-poppins-semibold text-white' : 'font-poppins-medium text-slate-500'}>
-                  {sem.label}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
+      <View className="flex-row border border-slate-100 rounded-2xl p-1">
+        {semesters.map((sem) => (
+          <TouchableOpacity
+            key={sem.id}
+            onPress={() => setActiveTab(sem.id)}
+            className={`flex-1 py-3 items-center rounded-xl ${
+              activeTab === sem.id ? 'bg-violet-700' : ''
+            }`}
+          >
+            <Text 
+              className={`font-poppins-medium ${
+                activeTab === sem.id ? 'text-white' : 'text-gray-500'
+              }`}
+            >
+              {sem.label}
+            </Text>
+          </TouchableOpacity>
+        ))}
       </View>
 
       <FlatList
@@ -84,28 +88,38 @@ const StudentCoursesScreen = () => {
                 courseName: teachingAssignment.course.name,
                 courseCode: teachingAssignment.course.code
               })}
-              className="bg-white p-5 rounded-3xl mb-4 border border-slate-100 shadow-sm flex-row items-center"
+              className="bg-white p-5 rounded-3xl mb-4 border border-slate-100 flex-row items-center"
             >
-              <View className="bg-indigo-50 p-3 rounded-2xl mr-4">
-                <BookOpen size={24} color="#4f46e5" />
+              <View className="bg-violet-50 p-3 rounded-2xl mr-4">
+                <BookText size={24} color="#8b5cf6" />
               </View>
               
               <View className="flex-1 gap-1">
                 <Text className="font-poppins-semibold text-slate-800 text-base">
                   {teachingAssignment.course.name}
                 </Text>
-                <View className="flex-row items-center">
-                  <User size={12} color="#94a3b8" />
-                  <Text className="font-poppins-regular text-slate-500 text-xs ml-2">
-                    {teachingAssignment.instructor.fullName}
-                  </Text>
+                <View className="flex-row items-center mt-2 gap-4">
+                  <View className="flex-row items-center">
+                    <GraduationCap size={12} color="#94a3b8" />
+                    <Text className="font-poppins-medium text-slate-400 text-xs ml-2">
+                      x Students
+                    </Text>
+                  </View>
+                  <View className="flex-row items-center">
+                    <SquareUserRound size={12} color="#94a3b8" />
+                    <Text className="font-poppins-medium text-slate-400 text-xs ml-2">
+                      {teachingAssignment.instructor.fullName}
+                    </Text>
+                  </View>
+                  <View className="flex-row items-center">
+                    <SquareUserRound size={12} color="#94a3b8" />
+                    <Text className="font-poppins-medium text-slate-400 text-xs ml-2">
+                      x Units
+                    </Text>
+                  </View>
                 </View>
-                <Text className="font-poppins-regular text-slate-400 text-xs">
-                  {teachingAssignment.section.program} {teachingAssignment.section.name}
-                </Text>
-                
               </View>
-              <ChevronRight size={20} color="#cbd5e1" />
+              {/* <ChevronRight size={20} color="#cbd5e1" /> */}
             </TouchableOpacity>
           );
         }}

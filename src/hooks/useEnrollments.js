@@ -8,7 +8,7 @@ export const useMyEnrollments = () => {
       const { data } = await client.get('/enrollments');
       return data.data;
     },
-    staleTime: 0,
+    staleTime: 1000 * 60 * 5,
   });
 };
 
@@ -20,7 +20,7 @@ export const useEnrollmentDetails = (teachingAssignmentId) => {
       return data.data;
     },
     enabled: !!teachingAssignmentId,
-    staleTime: 0,
+    staleTime: 1000 * 60 * 5,
   });
 };
 
@@ -32,6 +32,6 @@ export const useStudentClassDetails = (classId, studentId) => {
       return data.data;
     },
     enabled: !!classId && !!studentId,
-    staleTime: 0,
+    staleTime: 1000 * 60 * 5,
   });
 };

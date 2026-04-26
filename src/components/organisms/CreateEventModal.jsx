@@ -201,7 +201,7 @@ const CreateEventModal = ({ onClose, selectedDate }) => {
 
   return (
     <View className="flex-1 justify-end" style={{ paddingBottom: insets.bottom }}>
-      <Pressable className="absolute inset-0 bg-black/40" onPress={onClose} />
+      <Pressable className="absolute inset-0" onPress={onClose} />
 
       <KeyboardAvoidingView behavior="padding" className="bg-white rounded-t-3xl overflow-hidden" style={{ height: '80%' }}>
         <View className="p-6 flex-1">
@@ -227,7 +227,7 @@ const CreateEventModal = ({ onClose, selectedDate }) => {
 
                 {/* Title */}
                 <View>
-                  <Text className="text-slate-500 mb-1 ml-1" style={{ fontFamily: 'Poppins_500Medium' }}>Event Title</Text>
+                  <Text className="text-slate-500 mb-1 ml-1 font-poppins-medium">Event Title</Text>
                   <TextInput 
                     className={`bg-slate-50 p-4 rounded-2xl border ${errors.title ? 'border-rose-500 bg-rose-50' : 'border-slate-100'}`}
                     placeholder="e.g., General Assembly"
@@ -242,7 +242,7 @@ const CreateEventModal = ({ onClose, selectedDate }) => {
 
                 {/* Description */}
                 <View>
-                  <Text className="text-slate-500 mb-1 ml-1" style={{ fontFamily: 'Poppins_500Medium' }}>Description</Text>
+                  <Text className="text-slate-500 mb-1 ml-1 font-poppins-medium">Description</Text>
                   <TextInput 
                     multiline={true}
                     numberOfLines={4}
@@ -260,7 +260,7 @@ const CreateEventModal = ({ onClose, selectedDate }) => {
 
                 {/* Event Type Dropdown */}
                 <View>
-                  <Text className="text-slate-500 mb-2 ml-1" style={{ fontFamily: 'Poppins_500Medium' }}>
+                  <Text className="text-slate-500 mb-2 ml-1 font-poppins-medium">
                     Event Type
                   </Text>
                   
@@ -304,7 +304,7 @@ const CreateEventModal = ({ onClose, selectedDate }) => {
                 {/* Dates Row */}
                 <View className="flex-row gap-4">
                   <View className="flex-1">
-                    <Text className="text-slate-500 mb-1 ml-1" style={{ fontFamily: 'Poppins_500Medium' }}>Start Date</Text>
+                    <Text className="text-slate-500 mb-1 ml-1 font-poppins-medium">Start Date</Text>
                     <Pressable className={`flex-row items-center justify-between bg-slate-50 px-4 py-1 rounded-2xl border ${errors.start_date ? 'border-rose-500' : 'border-slate-100'}`} onPress={() => {openPicker('date', 'start_date'); setActiveField('start_date')}}>
                         <TextInput 
                           value={form.start_date} 
@@ -333,14 +333,14 @@ const CreateEventModal = ({ onClose, selectedDate }) => {
                 {/* All Day Toggle */}
                 <TouchableOpacity
                   disabled={isMultiDay}
-                  onPress={() => setIsAllDay(!isAllDay)}
+                  onPress={() => {setIsAllDay(!isAllDay); setForm({...form, start_time: null, end_time: null})}}
                   className={`p-4 rounded-2xl mt-2 border flex-row justify-between items-center ${isMultiDay ? 'bg-slate-100 opacity-60' : 'bg-slate-50'} border-slate-100`}
                 >
-                  <Text style={{ fontFamily: 'Poppins_500Medium' }} className='text-slate-700'>
+                  <Text className='font-poppins-medium text-slate-700'>
                     All-Day Event
                   </Text>
                   <View className={`w-10 h-6 rounded-full p-1 ${isAllDay ? 'bg-indigo-600 items-end' : 'bg-slate-300 items-start'}`}>
-                    <View className="w-4 h-4 bg-white rounded-full shadow-sm" />
+                    <View className="w-4 h-4 bg-white rounded-full" />
                   </View>
                 </TouchableOpacity>
 
@@ -348,10 +348,10 @@ const CreateEventModal = ({ onClose, selectedDate }) => {
                 {!isAllDay && (
                   <View className="flex-row gap-4 mt-2">
                     <View className="flex-1">
-                      <Text className="text-slate-500 mb-1 ml-1" style={{ fontFamily: 'Poppins_500Medium' }}>Start Time</Text>
-                      <Pressable className={`flex-1 justify-between flex-row items-center bg-slate-50 pl-4 pr-4 py-1 rounded-2xl border ${errors.start_time ? 'border-rose-500' : 'border-slate-100'}`} onPress={() => {openPicker('time', 'start_time'); setActiveField('start_time')}}>
+                      <Text className="text-slate-500 mb-1 ml-1 font-poppins-medium">Start Time</Text>
+                      <Pressable className={`justify-between flex-row items-center bg-slate-50 pl-4 pr-4 py-1 rounded-2xl border ${errors.start_time ? 'border-rose-500' : 'border-slate-100'}`} onPress={() => {openPicker('time', 'start_time'); setActiveField('start_time')}}>
                         <TextInput 
-                          value={form.start_time ? format(parse(form.start_time, 'HH:mm', new Date()), 'h:mm a') : ''} 
+                          value={form.start_time ? format(parse(form.start_time, 'HH:mm', new Date()), 'h:mm a') : '00:00:00'} 
                           placeholder="00:00:00"
                           editable={false}
                         />
@@ -360,10 +360,10 @@ const CreateEventModal = ({ onClose, selectedDate }) => {
                       {errors.start_time && <Text className="text-rose-500 text-[10px] mt-1 ml-1 font-poppins">{errors.start_time}</Text>}
                     </View>
                     <View className="flex-1">
-                      <Text className="text-slate-500 mb-1 ml-1" style={{ fontFamily: 'Poppins_500Medium' }}>End Time</Text>
-                      <Pressable className={`flex-1 justify-between flex-row items-center bg-slate-50 pl-4 pr-4 py-1 rounded-2xl border ${errors.end_time ? 'border-rose-500' : 'border-slate-100'}`} onPress={() => {openPicker('time', 'end_time'); setActiveField('end_time')}}>
+                      <Text className="text-slate-500 mb-1 ml-1 font-poppins-medium">End Time</Text>
+                      <Pressable className={`justify-between flex-row items-center bg-slate-50 pl-4 pr-4 py-1 rounded-2xl border ${errors.end_time ? 'border-rose-500' : 'border-slate-100'}`} onPress={() => {openPicker('time', 'end_time'); setActiveField('end_time')}}>
                         <TextInput 
-                          value={form.end_time ? format(parse(form.end_time, 'HH:mm', new Date()), 'h:mm a') : ''} 
+                          value={form.end_time ? format(parse(form.end_time, 'HH:mm', new Date()), 'h:mm a') : '00:00:00'} 
                           placeholder="00:00:00"
                           editable={false}
                         />
@@ -388,21 +388,21 @@ const CreateEventModal = ({ onClose, selectedDate }) => {
                   className={`p-5 rounded-3xl mb-6 border-2 flex-row justify-between items-center ${isGlobal ? 'bg-indigo-50 border-indigo-200' : errors.targets ? 'bg-slate-50 border-rose-200' : 'bg-slate-50 border-slate-100'}`}
                 >
                   <View className="flex-1 pr-4">
-                    <Text style={{ fontFamily: 'Poppins_600SemiBold' }} className={isGlobal ? 'text-indigo-700' : 'text-slate-800'}>
+                    <Text className={`font-poppins-semibold ${isGlobal ? 'text-indigo-700' : 'text-slate-800'}`}>
                       Global Announcement
                     </Text>
-                    <Text style={{ fontFamily: 'Poppins_400Regular' }} className="text-slate-500 text-xs">
+                    <Text className="font-poppins text-slate-500 text-xs">
                       Visible to everyone in the institution.
                     </Text>
                   </View>
                   <View className={`w-12 h-7 rounded-full p-1 ${isGlobal ? 'bg-indigo-600 items-end' : 'bg-slate-300 items-start'}`}>
-                    <View className="w-5 h-5 bg-white rounded-full shadow-sm" />
+                    <View className="w-5 h-5 bg-white rounded-full" />
                   </View>
                 </TouchableOpacity>
 
                 {!isGlobal && (
                   <View>
-                    <Text className="text-slate-500 mb-4 ml-1" style={{ fontFamily: 'Poppins_500Medium' }}>Target Specific Groups</Text>
+                    <Text className="font-poppins-medium text-slate-500 mb-4 ml-1">Target Specific Groups</Text>
                     
                     {/* Entire Program Checkbox & Chips */}
                     <View className={`mb-4 bg-slate-50 p-4 rounded-3xl border ${errors.targets ? 'border-rose-500' : 'border-slate-100'}`}>
@@ -413,7 +413,7 @@ const CreateEventModal = ({ onClose, selectedDate }) => {
                         <View className={`size-6 rounded border items-center justify-center mr-3 ${targetGroups.program ? 'bg-indigo-600 border-indigo-600' : 'bg-white border-slate-300'}`}>
                           {targetGroups.program && <Check size={14} color="white" />}
                         </View>
-                        <Text style={{ fontFamily: 'Poppins_500Medium' }} className="text-slate-800 text-base">Entire Program</Text>
+                        <Text className="font-poppins-medium text-slate-800 text-base">Entire Program</Text>
                       </TouchableOpacity>
 
                       {targetGroups.program && (
@@ -424,7 +424,7 @@ const CreateEventModal = ({ onClose, selectedDate }) => {
                               onPress={() => toggleTarget('program', prog.id)}
                               className={`px-4 py-2 rounded-full border ${isTargetSelected('program', prog.id) ? 'bg-indigo-100 border-indigo-300' : 'bg-white border-slate-200'}`}
                             >
-                              <Text style={{ fontFamily: 'Poppins_500Medium' }} className={isTargetSelected('program', prog.id) ? 'text-indigo-700' : 'text-slate-600'}>
+                              <Text className={`font-poppins-medium ${isTargetSelected('program', prog.id) ? 'text-indigo-700' : 'text-slate-600'}`}>
                                 {prog.label}
                               </Text>
                             </TouchableOpacity>

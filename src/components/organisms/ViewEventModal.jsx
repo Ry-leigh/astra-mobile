@@ -9,27 +9,28 @@ import Toast from 'react-native-toast-message';
 const ViewEventModal = ({ event, onClose, onEdit, onDelete }) => {
   const insets = useSafeAreaInsets();
   const activeRole = useAuthStore((state) => state.activeRole);
-    const cardStyles = {
-    suspension: 'bg-rose-50 border-rose-100',
-    school: 'bg-blue-50 border-blue-200',
-    exam: 'bg-violet-50 border-violet-200',
-    holiday: 'bg-emerald-50 border-emerald-200',
-    makeup: 'bg-indigo-50 border-indigo-200',
-    default: 'bg-mauve-50 border-mauve-200'
+    const iconColor = {
+    suspension: '#e11d48',
+    school: '#2563eb',
+    exam: '#6d28d9',
+    holiday: '#059669',
+    makeup: '#4f46e5',
+    default: '#594c5b'
   }
-  const cardAccent = {
-    suspension: 'bg-rose-200/80',
-    school: 'bg-blue-200/80',
-    exam: 'bg-violet-200/80',
-    holiday: 'bg-emerald-200/80',
-    makeup: 'bg-indigo-200/80',
-    default: 'bg-mauve-200/80'
+
+  const iconBg = {
+    suspension: 'bg-rose-50',
+    school: 'bg-blue-50',
+    exam: 'bg-violet-50',
+    holiday: 'bg-emerald-100',
+    makeup: 'bg-indigo-50',
+    default: 'bg-mauve-50'
   }
 
   const textStyles = {
     suspension: 'text-rose-600',
     school: 'text-blue-600',
-    exam: 'text-violet-600',
+    exam: 'text-violet-700',
     holiday: 'text-emerald-600',
     makeup: 'text-indigo-600',
     default: 'text-mauve-600'
@@ -54,25 +55,23 @@ const ViewEventModal = ({ event, onClose, onEdit, onDelete }) => {
 
   return (
     <View className="flex-1 justify-end" style={{ paddingBottom: insets.bottom }}>
-      {/* Backdrop */}
-      <Pressable className="absolute inset-0 bg-black/40" onPress={onClose} />
+      <Pressable className="absolute inset-0" onPress={onClose} />
 
-      {/* Modal Container */}
-      <View className="flex-1 p-6 bg-white rounded-t-3xl overflow-hidden" style={{ minHeight: '40%', maxHeight: '50%' }}>
-        <View className="flex-1">
-          
+      <View className="bg-white rounded-t-3xl overflow-hidden p-6" style={{ height: '70%' }}>
           {/* Header Section */}
-          <View className="flex-row justify-between items-start mb-8">
+          <View className="flex-row justify-between items-start mb-4">
             <View className="flex-row items-center">
-              <View className="bg-indigo-50 p-3 rounded-2xl mr-4">
-                <Calendar size={24} color="#4f46e5" />
+              <View className={`p-3 rounded-2xl mr-4 ${iconBg[event.type?.toLowerCase() || 'default']}`}>
+                <Calendar size={24} color={iconColor[event.type?.toLowerCase() || 'default']} />
               </View>
               <View className="">
-                <Text style={{ fontFamily: 'Poppins_600SemiBold' }} className="text-xl text-slate-900">
-                  Event Details
-                </Text>
-                <Text className={`font-poppins-bold text-xs uppercase tracking-widest ${textStyles[event.type?.toLowerCase() || 'default']}`}>
-                  {event.type || 'Event'}
+                <View className="flex-row">
+                  <Text className={`font-poppins-bold text-lg uppercase tracking-widest ${textStyles[event.type?.toLowerCase() || 'default']}`}>
+                    {event.type || 'Event'}
+                  </Text>
+                </View>
+                <Text className="font-poppins-semibold text-xs text-slate-500 uppercase tracking-widest">
+                  Details
                 </Text>
               </View>
             </View>
@@ -94,14 +93,14 @@ const ViewEventModal = ({ event, onClose, onEdit, onDelete }) => {
             <View className="flex-row items-center flex-wrap gap-6 mb-8">
               <View className="flex-row items-center">
                 <Calendar size={16} color="#94a3b8"/>
-                <Text style={{ fontFamily: 'Poppins_600SemiBold' }} className="ml-2 mr-4 text-slate-400 text-sm uppercase">
+                <Text className="font-poppins-semibold ml-2 mr-4 text-slate-400 text-sm uppercase">
                   {dateDisplay}
                 </Text>
               </View>
               
               <View className="flex-row items-center">
                 <Clock size={16} color="#94a3b8" />
-                <Text style={{ fontFamily: 'Poppins_600SemiBold' }} className="ml-2 text-slate-400 text-sm uppercase">
+                <Text className="font-poppins-semibold ml-2 text-slate-400 text-sm uppercase">
                   {timeDisplay}
                 </Text>
               </View>
@@ -109,10 +108,7 @@ const ViewEventModal = ({ event, onClose, onEdit, onDelete }) => {
 
             {/* Description Box */}
             <View className="bg-slate-50 p-6 rounded-[24px] mb-8 border border-slate-100">
-              <Text 
-                style={{ fontFamily: 'Poppins_400Regular' }} 
-                className="text-slate-600 leading-6 text-[15px]"
-              >
+              <Text className="font-poppins text-slate-600 leading-6 text-[15px]">
                 {event.description || "No description provided."}
               </Text>
             </View>
@@ -120,7 +116,7 @@ const ViewEventModal = ({ event, onClose, onEdit, onDelete }) => {
           </ScrollView>
 
           {activeRole === 'program_head' && (
-            <View className="flex-row justify-end items-center gap-6 pb-4">
+            <View className="flex-row justify-end items-center gap-2 pb-4">
               <TouchableOpacity 
                 onPress={() => {
                     onClose();
@@ -129,7 +125,7 @@ const ViewEventModal = ({ event, onClose, onEdit, onDelete }) => {
                 className="flex-row items-center px-4 py-2 bg-slate-50 rounded-xl border border-slate-100 mr-4"
               >
                 <Edit2 size={18} color="#64748b" />
-                <Text style={{ fontFamily: 'Poppins_600SemiBold' }} className="ml-2 text-slate-500">
+                <Text className="font-poppins-semibold ml-2 text-slate-500">
                   Edit Event
                 </Text>
               </TouchableOpacity>
@@ -139,14 +135,13 @@ const ViewEventModal = ({ event, onClose, onEdit, onDelete }) => {
                 className="flex-row items-center px-4 py-2 bg-rose-50 rounded-xl border border-rose-100"
               >
                 <Trash2 size={18} color="#f43f5e" />
-                <Text style={{ fontFamily: 'Poppins_600SemiBold' }} className="ml-2 text-rose-500">
+                <Text className="font-poppins-semibold ml-2 text-rose-500">
                   Delete
                 </Text>
               </TouchableOpacity>
             </View>
           )}
         </View>
-      </View>
     </View>
   );
 };
