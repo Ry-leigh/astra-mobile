@@ -4,7 +4,7 @@ import AccountScreen from '../screens/AccountScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import HelpScreen from '../screens/HelpScreen';
-import ManagementScreen from '../screens/ApplicationManagementScreen';
+import ApplicationManagementScreen from '../screens/ApplicationManagementScreen';
 import NotificationScreen from '../screens/NotificationScreen';
 
 const Stack = createNativeStackNavigator();
@@ -23,7 +23,7 @@ const AccountStack = () => {
       <Stack.Screen name="Notifications" component={NotificationScreen} />
       <Stack.Screen name="Settings" component={SettingsScreen} />
       <Stack.Screen name="Help" component={HelpScreen} />
-      <Stack.Screen name="Management" component={ManagementScreen} />
+      <Stack.Screen name="Management" component={ApplicationManagementScreen} />
     </Stack.Navigator>
   );
 };

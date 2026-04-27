@@ -4,10 +4,10 @@
     "slug": "astra",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/astra-logo.png",
+    "icon":"./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./src/assets/splash-icon.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -23,9 +23,7 @@
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./src/assets/astra-logo.png",
-        "backgroundImage": "./src/assets/android-icon-background.png",
-        "monochromeImage": "./src/assets/astra-logo.png"
+        "foregroundImage": "./assets/adaptive-icon.png"
       }
     },
     "web": {
