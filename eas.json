@@ -10,11 +10,13 @@
     },
     "preview": {
       "distribution": "internal",
+      "node": "24.14.1",
       "android": {
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://astra-backend-1-ubjj.onrender.com/api"
+        "EXPO_PUBLIC_API_URL": "https://astra-backend-1-ubjj.onrender.com/api",
+        "EAS_NO_NPM_CI": "1"
       }
     },
     "production": {

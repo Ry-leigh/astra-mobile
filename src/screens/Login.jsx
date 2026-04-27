@@ -144,7 +144,7 @@ const Login = () => {
               </View>
             </View>
 
-            {__DEV__ && (
+            {/* {__DEV__ && (
               <View className="mt-6 border-t border-white/20 pt-4 flex-row flex-wrap justify-center">
                 <TouchableOpacity onPress={() => handleDevLogin('student01@astra.test')} className="m-1 bg-white/10 p-2 rounded">
                   <Text className="text-white text-xs">Student</Text>
@@ -159,7 +159,7 @@ const Login = () => {
                   <Text className="text-white text-xs">Class Officer</Text>
                 </TouchableOpacity>
               </View>
-            )}
+            )} */}
           </View>
 
         </View>
